@@ -1,0 +1,321 @@
+\documentclass[12pt,a4paper,fontset=none]{ctexart}
+\usepackage{ctex}
+\usepackage{emptypage} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{graphicx}%插入图片用的宏包
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[marginal]{footmisc}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{forest}%树状图
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{algorithm}%算法基础宏包
+\usepackage{algorithmicx}%算法基础宏包,注意小写
+\usepackage{algpseudocode}%算法拓展宏包,函数,Return
+\newgeometry{left=3cm,top=2.5cm,bottom=2.5cm,right=3cm}
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+\forestset{ 
+  default preamble={ 
+    font=\large, 
+    for tree={circle,draw,minimum size = 10mm} 
+  } 
+} 
+\lstset{
+	backgroundcolor=\color{green!10!blue!15},
+	rulesepcolor= \color{red!40!blue!100},
+	breaklines=true,
+	breakatwhitespace=false,
+	numbers=left, 
+	numberstyle= \small,
+	keywordstyle= \color{blue},
+	commentstyle=\color{gray}, 
+	frame=shadowbox
+}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\title{\textbf{数据结构与算法第四次作业}}
+
+\author{
+\\
+\Large{麻超 \quad 201300066}
+\\[6pt]
+{ \large \textit{南京大学人工智能学院}}\\[2pt]
+}
+
+\date{\today}
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+
+\begin{document}
+\maketitle
+\setcounter{page}{1}
+\section*{Problem 1}
+\subsection*{a}
+原最大堆：
+
+\begin{forest}
+    [5[13[25[15][4]][7]][2[17][20]]]
+\end{forest}
+
+数组长度为9，故从4开始向1循环，依次执行MAX-HEAPIFY(A,i)过程.节点25不需要执行该过程,节点2需要执行,交换2与20的位置,变成这样:
+
+\begin{forest}
+    [5[13[25[15][4]][7]][20[17][2]]]
+\end{forest}
+
+节点13需要执行,交换13与25的位置,再次交换13与15的位置,变成这样:
+
+\begin{forest}
+    [5[25[15[13][4]][7]][20[17][2]]]
+\end{forest}
+
+节点5需要执行,交换5与25的位置,再次交换5与15的位置,再次交换5与13的位置,变成这样:
+
+\begin{forest}
+    [25[15[13[5][4]][7]][20[17][2]]]
+\end{forest}
+\subsection*{b}
+给定堆结构如a)中的结构.
+
+从A.length开始循环到2,每次交换A[i]与A[1]的位置(取出A[1]),再将其调整为最大堆.
+
+首先取出25,令A[1]=4,再交换4和20位置,交换4和17位置.如下:
+
+\begin{forest}
+    [20[15[13[5]][7]][17[4][2]]]
+\end{forest},A=[25]
+
+交换5与20位置,取出20之后,交换5与17位置.
+
+\begin{forest}
+    [17[15[13][7]][5[4][2]]]
+\end{forest},A=[25,20]
+
+交换2与17位置,取出17,交换2与15位置,交换2与13位置.
+
+\begin{forest}
+    [15[13[2][7]][5[4]]]
+\end{forest},A=[25,20,17]
+
+交换4与15位置,取出15,交换4与13位置,交换4与7位置.
+
+\begin{forest}
+    [13[7[2][4]][5]]
+\end{forest},A=[25,20,17,15]
+
+交换4与13位置,取出13,交换4与7位置.
+
+\begin{forest}
+    [7[4[2]][5]]
+\end{forest},A=[25,20,17,15,13]
+
+交换2与7位置,取出7,交换2与5位置.
+
+\begin{forest}
+    [5[4][2]]
+\end{forest},A=[25,20,17,15,13,7]
+
+交换2与5位置,取出5,交换2与4位置.
+
+\begin{forest}
+    [4[2]]
+\end{forest},A=[25,20,17,15,13,7,5]
+
+交换2与4位置,取出4,此时原堆中只有2,取出2,则A=[25,20,17,15,13,7,5,4,2]
+\section*{Problem 2}
+可以选择创建一个大小为k的数组，将k个排序链表中的第一个元素依次存放到数组中，然后将数组调整为最小堆，这样保证数组的第一个元素是最小的，也是这些链表中最小的元素，假设其为min，将min从该最小堆取出并存放到空链表中，此时将min所在链表的下一个元素到插入的最小堆中，重复上面的操作，直到堆中没有元素为止。
+
+假设初始链表为[5,15,20][4,12,17][0,3,8,18],则首先以每个链表的最小元素构建一个最小堆[0,4,5],从中取出0,将0对应链表中的第二个元素3加入最小堆中,再次构建最小堆[3,4,5],取出3,将8加入最小堆,再次构建为[4,5,8],取出4...,以此类推,最后可以得到合并后的链表.
+
+伪代码如下:
+\begin{algorithm}
+    \caption{Merge k sorted lists}
+    \label{alg1}
+    \begin{algorithmic}
+        \Require $k-sorted-lists$
+        \State $heaparr=[],rearr=[]$
+        \For {$i=1\to k$}
+        \State {$heaparr[i]\gets list[i][0]$}
+        \EndFor
+        \State $BUILD-MIN-HEAP(heaparr[])$
+        \While $heaparr[].size!=0$
+        \State $MIN-HEAPIFY(heaparr[],1)$
+        \State $rearr[]\gets heaparr[1]$
+        \If {$heaparr[1].next!=NULL$}
+        \State $heaparr[1]\gets heaparr[1].next$
+        \Else
+        \State $swap(heaparr[1],heaparr[k])$
+        \State $k\gets k-1$
+        \EndIf
+
+        \EndWhile
+        \Ensure $rearr[]$
+    \end{algorithmic}
+\end{algorithm}
+
+时间复杂度分析:每次取出最小的元素只需要O(1)时间,每次取出之后再次最小堆化需要O($\lg k$)时间,一共有n个元素,故最后的时间复杂度为O(nlgk).
+\section*{Problem 3}
+\subsection*{a}
+该算法利用了递归与分治思想,将整个大的数组分为若干小的数组,再次结合起来,所以Unusual()函数的作用就是将每一部分排序为正确的顺序.
+
+Cruel()函数作用为分治,其正确性显而易见.
+
+以下证明Unusual()函数对$n=2^k$正确.
+
+奠基:当n=2时,直接判断两个元素的大小并排序,正确.
+
+归纳假设:设当$n=2^k$时该过程正确,即可以正确排序,则以下只需要证明Unusual()函数可以将已经排好序的左右两部分合并为正确的顺序.
+
+由于左右两边已经排好序,所以每一个部分内从左到右的数值都是依次增大的.
+
+将原数组设为共有4个部分,即左部分的左半边,左部分的右半边,右部分的左半边,右部分的右半边.
+
+1)若左部分全小于右部分,此时先将2,3部分对调,两边分别排序后,两部分依然符合顺序关系(即可以跳过7-8行,)再对2,3部分排序,回复至原来的情况,正确.
+
+2)若左部分全大于右部分,则对调再分别排序后的顺序情况应为3142(部分),最后再给1,4部分排序(即交换位置),最后得到的结果为3412(部分),正确.
+
+3)介于1和2之间的情况,该算法实质上会将左部分较小的半边和右部分较小的半边进行比较得到正确结果,将左部分较大的半边和右部分较大的半边进行比较,最后再比较中间几个数字,且由于归纳假设关系,最左边n/4的数字一定都比后面的小,最右边同理,所以中间部分排序结束就可以决定整个数组的顺序,故该算法正确,得证.
+\subsection*{b}
+如数组[6,7,4,5],若去掉for循环,则最后结果为[7,6,5,4]->[6,7,5,4]->[6,7,4,5]->[6,4,7,5]->[6,4,7,5].
+\subsection*{c}
+如数组[6,7,4,5],若更换最后两行的位置,则最后结果为[6,7,4,5]->[6,4,7,5]->[4,6,7,5]->[4,6,7,5]->[4,6,5,7].
+\subsection*{d}
+每次执行交换两数的操作需要O(1)时间.for循环占用时间为$\Theta (n)$.则:
+
+$T(n)=3\times T(n/2)+\Theta(n)=n+n\times \frac{3}{2}+n\times \frac{9}{4}+...+n\times (\frac{3}{2})^{\lg n}=2n^{\lg 3}=\Theta (n^{\lg 3})$
+
+Cruel()函数的时间复杂度为$T(n)=2T(n/2)+\Theta(n^{\lg3})$,递归树的层数为lgn,故其时间复杂度为$T(n)=\Theta (n^{\lg3}lgn)$
+\section*{Problem 4}
+\subsection*{a}
+利用归纳法以证明结论:
+
+奠基:如果A只包含一个元素,则p=r.算法立即终止,已排序.
+
+归纳假设:设对于任意的$1\leq k \leq n-1$,TRQUICKSORT()都能够正确地对有k个元素的数组A排序.则设A的大小为n,设q为主元.
+
+根据归纳假设,左子数组的大小小于n,所以TRQUICKSORT()能对左子数组进行正确排序,接下来令p=q+1,其同样可以对右子数组进行排序.
+
+故由归纳法,TRQUICKSORT()可以对A进行排序.
+\subsection*{b}
+
+由(a)知,每次递归调用都把相关信息压入至栈中,$TRQUICKSORT(A,p,r)$的第三个参数会经过小于r-p=n次递归调用就能满足p=r,达到返回条件.所以对自身递归调用不超过n次.每次调用过程值需要O(1)的空间,所以不超过n次调用就是$\Theta(n)$的空间.即此时$\Theta(n)$就为栈深度.
+
+\subsection*{c}
+\begin{algorithm}
+    \caption{IM-TRQUICKSORT}
+    \label{alg4}
+    \begin{algorithmic}
+        \State $IM-TRQUICKSORT(A,p,r)$
+        \While {$p<r$}
+        \State $q=PARTITION(A,p,r)$
+        \If {$q-p<r-p$}
+        \State $IM-TRQUICKSORT(A,p,q-1)$
+        \State $p\gets q+1$
+        \Else
+        \State $IM-TRQUICKSORT(A,q+1,r)$
+        \State $r\gets q+1$
+        \EndIf
+        \EndWhile
+    \end{algorithmic}
+\end{algorithm}
+\section*{Problem 5}
+\subsection*{a}
+每次调用SqrtSort()函数可以对$\sqrt n$(为整数)个元素进行排序.可以考虑通过从k=1开始遍历,调整最后的几个元素为最大的元素.这样每次可以减少对$\sqrt n-1$个元素再次进行排序,以此类推,最终可以实现对整个数组的排序过程.
+
+伪代码如下:
+
+\begin{algorithm}
+    \caption{SqrtSort}
+    \label{alg2}
+    \begin{algorithmic}
+        \Require $SqrtSort(k),A[1...n]$
+        \State $length=A.size,looptime=0$
+        \While {$length>=\sqrt n$}
+        \For {$k=0 \to n-\sqrt n-looptime*(\sqrt n-1)$}
+        \State $SqrtSort(k)$
+        \EndFor
+        \State $looptime\gets looptime+1$
+        \State $length\gets length-\sqrt n+1$
+        \EndWhile
+        \Ensure $sortedA[1...n]$
+    \end{algorithmic}
+\end{algorithm}
+
+设原数组中有n个元素,每两次进行SqrtSort()操作时有$\sqrt n-1$个元素时重复的,以此类推,当遍历过第一遍之后,原数组的最后$\sqrt n-1$个元素肯定是最大的几个且按照大小顺序排列好的,那么下一次循环时就可以不用管这几个数字,以此类推,直到最后需要遍历的几个元素与$\sqrt n$比较接近时,无需进行下一次遍历.这样最后得到的数组一定是排好序的.
+
+最坏情况下:第一次遍历需要调用$n-\sqrt n+1$次,第二次循环时,需要调用$n-2\sqrt n+2$次,以此类推,最后一次需要调用1次.总数为n时,每次循环调用次数符合数列$a_k=(1-\sqrt n)(k-1)+1+\sqrt n(\sqrt n-1)=n-k(\sqrt n-1)$.k的取值范围是1到$\sqrt n+1.sum=\frac{(n-1)\sqrt n}{2}+\sqrt n+1$.
+\subsection*{b}
+
+
+\section*{Problrm 6}
+\subsection*{a}
+第一次调用该函数,如果FairCoin返回的值是0,那么该函数返回0,否则返回1-OneInThree().再次调用该函数,如果FairCoin返回的值是0,则退出递归,返回1,否则再次递归...,通过分析可知,如果想要让返回值是1,那么第二次调用OneInThree()时需要返回0,分为直接返回和再次递归两种,直接返回的概率是1/4,再次递归时,如果要返回0,那么第三次调用需要返回1,即(1-(1-1))=0,即第四次需要返回0,概率为1/16...,以此类推,如果想要返回值为1,则任意一次偶数次递归时需要返回0,则转变为求$1/4+1/16+1/64+...+1/4^n$,由级数可知,其和为1/3.
+\subsection*{b}
+当第一次直接返回0时,调用一次FairCoin,概率为1/2.当第一次为1,第二次为0时,调用两次,概率为1/4...,也就是说,当调用该函数返回值为0时,便退出该程序.所以总的期望是$1\times 1/2+2\times 1/4+3\times 1/8+...+n\times 1/2^n=\sum_{n=1}^\infty n/2^n=2$
+\subsection*{c}
+由于不知道概率p,可以考虑连续两次调用BiasedCoin函数,若第一次为0,第二次为1,则返回0,第一次为1,第二次为0则返回1,否则再次调用,这样返回1和0的概率都是P(1-p).
+
+伪代码如下:
+
+\begin{algorithm}
+    \caption{OneInTwo}
+    \label{alg3}
+    \begin{algorithmic}
+        \While{$True$}
+        \State $x\gets BiasedCoin()$
+        \State $y\gets BiasedCoin()$
+        \If {$x\neq y$}
+        \Return x
+        \EndIf
+        \EndWhile
+    \end{algorithmic}
+\end{algorithm}
+\subsection*{d}
+在第一次循环以内就可以返回0或1的概率是2p(1-p),此时需要调用BiasedCoin()两次,第二次循环内可以返回的概率是(1-2p(1-p))(2p(1-p)),需要调用四次,令m=2p(1-p),则:
+
+期望=$m\times 2+m(1-m)\times 4+m(1-m)^2\times 6+...+m(1-m)^{n-1}\times 2n$\\=$\sum_{n=1}^{\infty} m(1-m)^{n-1}\times 2n$
+\section*{Problem 7}
+只需要20步操作且必须需要20步操作便可以问出Eve所想的数字.
+
+具体原理是利用二分法,考虑到$2^{20}=1048576$,与1,000,000较接近.所以可以通过1048576来进行二分操作,每次确定该数字在原区间的一半区间,只需要20次便可以确定,在询问20次之后,必然可以得到一个大小为1的区间,则该数字就在这个区间内,以此确定该数的值.算法上界和下界都为20.
+
+以下为一个例子:设该数为654321.
+
+\begin{enumerate}
+    \item Q:它比524288大吗?($2^{19}$)\\A:Yes.
+    \item Q:它比786432大吗?($524288+2^{18}$)\\A:No.
+    \item Q:它比655360大吗?($786432-2^{17}$)\\A:No.
+    \item Q:它比589824大吗?($655360-2^{16}$)\\A:Yes.
+    \item Q:它比622592大吗?($589824+2^{15}$)\\A:Yes.
+    \item Q:它比638976大吗?($622592+2^{14}$)\\A:Yes.
+    \item Q:它比647168大吗?($638976+2^{13}$)\\A:Yes.
+    \item Q:它比651264大吗?($647168+2^{12}$)\\A:Yes.
+    \item Q:它比653312大吗?($651264+2^{11}$)\\A:Yes.
+    \item Q:它比654336大吗?($653312+2^{10}$)\\A:No.
+    \item Q:它比653824大吗?($654336-2^9$)\\A:Yes.
+    \item Q:它比654080大吗?($653824+2^8$)\\A:Yes.
+    \item Q:它比654208大吗?($654080+2^7$)\\A:Yes.
+    \item Q:它比654272大吗?($654208+2^6$)\\A:Yes.
+    \item Q:它比654304大吗?($654272+2^5$)\\A:Yes.
+    \item Q:它比654320大吗?($654304+2^4$)\\A:Yes.
+    \item Q:它比654328大吗?($654320+2^3$)\\A:Np.
+    \item Q:它比654324大吗?($654328-2^2$)\\A:No.
+    \item Q:它比654322大吗?($654324-2^1$)\\A:No.
+    \item Q:它比654321大吗?($654322-2^0$)\\A:No.
+\end{enumerate}
+
+到此为止,通过第16行和第20行,这个数比654320大,但是不比654321小,故这个数只能是654321.其他情况同理,最多只需要20次即可得到结果.
+\section*{Problem 8}
+由定理8.1,在最坏情况下,任何比较排序算法都需要做$\Omega(n\lg n)$次比较,即其时间复杂度为$\Omega(n\lg n)$.堆排序显然属于比较排序.另由第6章内容,堆排序的时间复杂度为O(nlgn),综上所述,HEAPSORT的时间复杂度为$\Theta(n\lg n)$.
+\end{document}

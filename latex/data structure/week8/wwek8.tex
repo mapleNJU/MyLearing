@@ -1,0 +1,118 @@
+\documentclass[12pt,a4paper,fontset=none]{ctexart}
+\usepackage{ctex}
+\usepackage{emptypage} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{graphicx}%插入图片用的宏包
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[marginal]{footmisc}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{algorithm,algpseudocode,float}%算法基础宏包
+\usepackage{algorithmicx}%算法基础宏包,注意小写
+\usepackage{algpseudocode}%算法拓展宏包,函数,Return
+\usepackage{lipsum}
+\newgeometry{left=3cm,top=2.5cm,bottom=2.5cm,right=3cm}
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+\lstset{
+	backgroundcolor=\color{green!10!blue!15},
+	rulesepcolor= \color{red!40!blue!100},
+	breaklines=true,
+	breakatwhitespace=false,
+	numbers=left, 
+	numberstyle= \small,
+	keywordstyle= \color{blue},
+	commentstyle=\color{gray}, 
+	frame=shadowbox
+}
+\CTEXsetup[]{section}
+\renewcommand{\baselinestretch}{1.5}
+
+\title{\textbf{Problem Set 8}}
+
+\author{
+\\
+\Large{麻超 \quad 201300066}
+\\[6pt]
+{ \large \textit{南京大学人工智能学院}}\\[2pt]
+}
+\date{}
+
+\begin{document}
+
+\maketitle
+\setcounter{page}{1}
+\tableofcontents
+\newpage
+\section{Problem 1}
+第1-2行,分别建立$x_1$到$x_16$的集合.
+
+第3-4行之后,为:\{$x_1,x_2$\},\{$x_3,x_4$\},...,\{$x_{15},x_{16}$\}
+
+第5-6行之后:\{$x_1,x_2,x_3,x_4$\},...,\{$x_{13},x_{14},x_{15},x_{16}$\}
+
+第7-8行之后:\{$x_1,x_2,x_3,...,x_8$\}\{$x_9,x_{10},x_{11},...,x_{16}$\}
+
+第9行之后:\{$x_1,x_2,x_3,x_4,...x_{14},x_{15},x_{16}$\}
+所以两次find操作返回的值都是$x_1$.
+\section{Problem 2}
+首先做n次$MakeSet(x_i)$操作,操作完成之后可以获得n个元素个数为1的集合.
+
+再两两做$Union$操作,可以获得$\lceil \frac{n}{2} \rceil$个有两个元素的集合...依次类推,仿照第一题的操作,可以得到一个高为$\lg n+1$的n元集合,一共需要做$2^{\lfloor \lg n\rfloor }-1$次Union()操作.
+
+最后再进行m-n+1次Find操作.知道Find操作作用在了之前构建的高度为$\lg n+1$的树上,因为$m\geq 2n$所以其时间复杂度为$\Omega(m\lg n)$.
+\section{Problem 3}
+\subsection{a}
+最坏情况下,所有的元素都存在在同一棵树的同一侧,即形成了一条链,链的长度为n,所需时间复杂度$T(n)=\sum_{i=0}^n i=\frac{n(n+1)}{2} $,即$T(n)=O(n^2)$
+\subsection{b}
+用路径压缩实施Find操作,假设在该过程中进行了i次路径压缩,总时间复杂度$T(n)=\sum_{k=1}^{i}m_k +(n-i)=O(n)$.$m_k$为每次路径压缩的时间复杂度,(n-i)为其余n-i个元素所需要的时间复杂度.
+
+即使用路径压缩完成Find操作后,总时间复杂度为$O(n)$.
+\section{Problem 4}
+
+\section{Problem 5}
+利用数学归纳法证明:
+
+1.若这个图只有两个节点,则这个树两个节点中间有且只有一个边相连,即两个节点均只有一度.
+
+2.假设该连通无环图共有k个节点,且该k个节点中至少有两个点的度数为1,记为A和B.
+
+3.则考虑该连通无环图从k个节点增加至k+1个节点的情况:
+\begin{itemize}
+	\item 若增加的该节点与A和B之间没有连通的边,那么无论其他的边如何变化,无论它究竟还是不是连通无环图,这两个节点A和B自然都是1度的,所以其正确.
+	\item 若增加的节点与A有一条边连通(与B也是同理),但与B没有连通,那么增加的节点S必然不会与原图中其他节点连通,因为原图是连通的,所以若S与其他节点连通且与A连通,那么自然会形成一个回路,就违背了无环的前提.在这种情况下,B的度数为1,A虽然与S连通,度数变为了2,但S不与其他节点连通,其度数同样为1,则证明正确.
+	\item 若S与A和B都连通,由于原图是联通的,所以A和B自然有一条通路,这样连通相当于构造了一个环,违背了前提.
+\end{itemize}
+
+综上所述,原命题正确,即任何具有$n\geq 2$个顶点的连通无环图至少有两个顶点的度数为1.
+
+\section{Problem 6}
+假设$A=BB^T$,对A中的元素$a_{ij}$分情况讨论:
+
+第一种情况,当$i=j$时,就是用$B$的第i行去乘$B^T$的第j列(也就是$B$的第j行),此时
+\begin{align*}
+	a_{ij}=\sum_{k=1}^{|E|}b_{ik}^2
+\end{align*}
+
+即为对B的第i行元素求平方和,只有当节点i与第k条边相连时方可取1,则$a_{ij}$表示与节点i相连的边数.
+
+第二种情况,当$i\neq j$时,用B的第i行乘以B的第j行
+\begin{align*}
+	a_{ij}=\sum_{k=1}^{|E|}b_{ik}\cdot b_{jk}
+\end{align*}
+
+而$b_{ik}\cdot b_{jk}$的值只能是-1或0,当i和j节点间存在一条边时取-1,否则取0,则$a_{ij}$表示与节点i相连的边数.
+
+综上所述,$BB^T$中的每一个元素$a_{ij}$都表示节点i与节点j相连的边数.
+\end{document}

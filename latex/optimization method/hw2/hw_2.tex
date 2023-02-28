@@ -1,0 +1,182 @@
+\documentclass[12pt,a4paper,fontset=none]{ctexart}
+\usepackage{ctex}
+\usepackage{emptypage} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{graphicx}%插入图片用的宏包
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[marginal]{footmisc}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{algorithm}%算法基础宏包
+\usepackage{algorithmicx}%算法基础宏包,注意小写
+\usepackage{algpseudocode}%算法拓展宏包,函数,Return
+\newgeometry{left=3cm,top=2.5cm,bottom=2.5cm,right=3cm}
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+\lstset{
+	backgroundcolor=\color{green!10!blue!15},
+	rulesepcolor= \color{red!40!blue!100},
+	breaklines=true,
+	breakatwhitespace=false,
+	numbers=left, 
+	numberstyle= \small,
+	keywordstyle= \color{blue},
+	commentstyle=\color{gray}, 
+	frame=shadowbox
+}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\title{\textbf{最优化作业二}}
+
+\author{
+\\
+\Large{麻超 \quad 201300066}
+\\[6pt]
+{ \large \textit{南京大学人工智能学院}}\\[2pt]
+}
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+
+\begin{document}
+
+\maketitle
+\setcounter{page}{1}
+\section{Problem 1}
+\subsection{a}
+\textbf{解:}$\\
+	f(x)=-\sum_{i=1}^{n}\log x_i\\
+	f^{'}(x)=-\sum_{i=1}^{n}\frac{1}{x_i}\\
+	f^{''}(x)=\sum_{i=1}^{n}\frac{1}{x_i^2}\\
+	f^{''}(x)>0$\\
+所以~$f(x)$~为严格凸函数.
+\subsection{b}
+\textbf{解:}
+
+如果~$f$~二阶可微且为凸函数,则:
+\begin{align*}
+	           & f(y)\geq f(x)+\nabla f(x)^T(y-x)   \\
+	           & f(x)\geq f(y)+\nabla f(y)^T(x-y)   \\
+	\therefore & (\nabla f(x)-\nabla f(y))^T(x-y)>0
+\end{align*}
+
+
+如果~$\nabla f$~是单调的,那么
+
+令\begin{align*}
+	           & g(t)=f(x+t(y-x)),t\in [0,1]                                                   \\
+	           & g^{'}(t)=\nabla f(x+t(y-x))^T(y-x)                                            \\
+	           & g^{'}(1)-g^{'}(0)>0                                                           \\
+	\therefore & g^{'}(t)-g^{'}(0)\leq 0                                                       \\
+	\therefore & f(y)=g(1)=g(0)+\int_0^1 g^{'}(x) dx\geq g(0)+g^{'}(0)=f(x)+\nabla f(x)^T(y-x)
+\end{align*}
+
+因此~$f$~为凸函数
+\subsection{c}
+\textbf{证明:}即需要证明:$dom(g)$是凸集，且$\forall (x,t),(y,s)\in dom(g),0<\theta<1$，有\\
+$g(\theta x+(1-\theta)y,\theta t+(1-\theta)s)\leq \theta g(x,t)+(1-\theta)g(y,s)$
+
+\begin{align*}
+	           & g(x,t)=tf(\frac{x}{t} ),f(x)\text{是凸函数}                                                                                            \\
+	           & g(\theta x+(1-\theta)y,\theta t+(1-\theta)s)=(\theta t+(1-\theta)s)f(\frac{\theta x+(1-\theta)y}{\theta t+(1-\theta)s} )               \\
+	\because   & g(x,t)=tf(\frac{x}{t} ),g(y,s)=sf(\frac{y}{s} )                                                                                        \\
+	\therefore & f(\frac{\theta x+(1-\theta)y}{\theta t+(1-\theta)s} )=\frac{f(\theta t(\frac{x}{t} )+(1-\theta)s(\frac{y}{s} ))}{\theta t+(1-\theta)s} \\
+	\therefore & g(\theta x+(1-\theta)y,\theta t+(1-\theta)s)= f(\theta t(\frac{x}{t} )+(1-\theta)s(\frac{y}{s} ))                                      \\
+	           & \leq \theta tf(\frac{x}{t} )+(1-\theta)sf(\frac{y}{s} )=\theta g(x,t)+(1-\theta)g(y,s)
+\end{align*}
+又因定义域$dom(g)$是$dom(f)$在透视函数$P:R^{n+1}\to R^n,P(x,t)=x/t(t>0)$下的逆象，$dom(f)$为凸集，故$dom(g)$是凸集，~$g$~是凸函数。
+\section{Problem 2}
+\begin{align*}
+	           & \frac{\partial f(x)}{\partial x_i}=(\sum_{i=1}^{n}x_i^p)^{\frac{1-p}{p} }x_i^{p-1}=(\frac{f(x)}{x_i} )^{1-p}                                                      \\
+	           & \frac{\partial^2 f(x)}{\partial x_i\partial x_j}=\frac{1-p}{x_i} (\frac{f(x)}{x_i} )^{-p}(\frac{f(x)}{x_j} )^{1-p}=\frac{1-p}{f(x)}(\frac{f^2(x)}{x_ix_j} )^{1-p} \\
+	           & while\text{ } i\neq j,\frac{\partial^2 f(x)}{\partial x_i^2}=\frac{1-p}{f(x)} (\frac{f(x)^2}{x_i} )^{1-p}-\frac{1-p}{x_i} (\frac{f(x)}{x_i} )^{1-p}               \\
+	\therefore & \nabla^2f(x)=\frac{1-p}{f(x)} ((\sum_{i=1}^{n}\frac{f(x)^{1-p}}{x_i^{1-p}} )^2-\sum_{i=1}^{n}\frac{f(x)^{2-p}}{x_i^{2-p}} )                                       \\
+	           & (\sum_{i=1}^{n}\frac{f(x)^{1-p}}{x_i^{1-p}})^2=(\sum_{i=1}^{n}(\frac{f(x)}{x_i} )^{-p/2}(\frac{f(x)}{x_i})^{1-p/2} )^2                                            \\
+	           & \leq \sum_{i=1}^{n}\frac{f(x)}{x_i}^{-p}\sum_{i=1}^{n} \frac{f(x)}{x_i}^{2-p}                                                                                     \\
+	           & =\sum_{i=1}^{n}(\frac{f(x)}{x_i} )^{2-p}                                                                                                                          \\
+	\therefore & \nabla^2 f(x)\leq 0                                                                                                                                               \\
+	\therefore & \text{~$f(x)$~是凹函数 }
+\end{align*}
+
+\section{Problem 3}
+\subsection{a}
+\begin{align*}
+	\Delta\psi(x,y)=\psi(x)-\psi(y)-<\nabla\psi(y),x-y> =\psi(x)-\psi(y)-\nabla \psi(y)^T(x-y)
+\end{align*}
+因为$\psi$严格凸，连续可微
+所以有：
+\begin{align*}
+	 & \psi(x)\geq \psi(y)+\nabla \psi(y)^T(x-y) \\
+	 & \Delta\psi(x,y)\geq 0
+\end{align*}
+当$x=y$时，$\psi(x)=\psi(y)=0,x=y$,即$\Delta\psi(x,y)=0$
+\subsection{b}
+\begin{align*}
+	f(x)                     & =L(x)+\Delta_\psi(x,x_0)                                                                     \\
+	\nabla f(x)              & =\nabla L(x)+\nabla \psi(x)-\nabla \psi(x_0)                                                 \\
+	\therefore \nabla f(x^*) & =0                                                                                           \\
+	g(y)                     & =f(y)-f(x^*)-\Delta_\psi(y,x^*)                                                              \\
+	\nabla g(y)              & =\nabla f(y)-\nabla \psi(x^*)-\nabla \psi(x^*)=\nabla L(y)+\nabla \psi(x^*)-\nabla \psi(x_0) \\
+	\nabla^2g(y)             & =\nabla^2L(y)\geq 0                                                                          \\
+	g(x^*)                   & =\nabla g(x^*)=0
+\end{align*}
+
+因此函数单调递增，原式得证。
+\section{Problem 4}
+\subsection{a}
+\textbf{证明：}
+
+\begin{align*}
+	           & <\prod_X(x)-\prod_X(y),x-y> -\|\prod_X(x)-\prod_X(y)\|      \\
+	=          & <\prod_X(x)-\prod_X(y),(x-\prod_X(x))+(\prod_X(y)-y)>       \\
+	           & x^*=argmin \frac{1}{2} \|x-y\|_2^2                          \\
+	\therefore & <x-x^*,\prod_X(x)-\prod_X(y)> =0                            \\
+	if         & x^*\in X,<\prod_X(x)-\prod_X(y),x-\prod_X(x)> =0            \\
+	else       & <\prod_X(x)-\prod_X(y),x-\prod_X(x)> \geq 0                 \\
+	\therefore & <\prod_X(x)-\prod_X(y),x-\prod_X(x)> \geq 0                 \\
+	\therefore & <\prod_X(x)-\prod_X(y),\prod_X(y)-y> \geq 0                 \\
+	\therefore & <\prod_X(x)-\prod_X(y),(x-\prod_X(x))+(\prod_X(y)-y> \geq 0
+\end{align*}
+得证
+\subsection{b}
+\begin{align*}
+	\because & <\prod_X(x)-\prod_X(y),x-\prod_X(x)> \geq 0 \\
+	         & <\prod_X(x)-\prod_X(y),\prod_X(y)-y> \geq 0
+\end{align*}
+~$x,y$~在以$\prod_X(x)-\prod_X(y)$为法向量，$\prod_X(x)$为交点的超平面两侧，同理~$x,y$~在以$\prod_X(x)-\prod_X(y)$为法向量，$\prod_X(y)$为交点的超平面两侧。
+
+$\therefore \|\prod_X(x)-\prod_X(y)\|_2\leq \|x-y\|_2$
+\section{Problem 5}
+\subsection{a}
+\begin{align*}
+	f^*(y)        & =sup(yx-max\{0,1-x\})                   \\
+	if \text{ }   & x<1,\frac{\partial f^*}{\partial x}=1+y \\
+	else \text{ } & \frac{\partial f}{\partial x}=y         \\
+\end{align*}
+
+为了保证有上界$y\in [-1,0]$
+
+$\therefore f^*(y)=y,y\in [-1,0]$
+\subsection{b}
+\begin{align*}
+	f^*(y)                          & =sup(yx-\ln (1+e^{-x}))   \\
+	\frac{\partial f^*}{\partial x} & =y+\frac{1}{1+e^{x} }     \\
+	                                & \frac{1}{1+e^x} \in (0,1) \\
+\end{align*}
+
+为保证有上界,则~$y\in (-1,0)$~
+
+\begin{align*}
+	\therefore f^*(y)=(y+1)\ln (y+1)-y\ln(-y)
+\end{align*}
+\end{document}

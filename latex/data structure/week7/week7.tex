@@ -1,0 +1,197 @@
+\documentclass[12pt,a4paper,fontset=none]{ctexart}
+\usepackage{ctex}
+\usepackage{emptypage} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{graphicx}%插入图片用的宏包
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[marginal]{footmisc}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{algorithm,algpseudocode,float}%算法基础宏包
+\usepackage{algorithmicx}%算法基础宏包,注意小写
+\usepackage{algpseudocode}%算法拓展宏包,函数,Return
+\usepackage{lipsum}
+\newgeometry{left=3cm,top=2.5cm,bottom=2.5cm,right=3cm}
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+\lstset{
+	backgroundcolor=\color{green!10!blue!15},
+	rulesepcolor= \color{red!40!blue!100},
+	breaklines=true,
+	breakatwhitespace=false,
+	numbers=left, 
+	numberstyle= \small,
+	keywordstyle= \color{blue},
+	commentstyle=\color{gray}, 
+	frame=shadowbox
+}
+\CTEXsetup[format={\bfseries}]{section}
+\renewcommand{\baselinestretch}{1.5}
+
+\title{\textbf{数据结构与算法第七次作业}}
+
+\author{
+\\
+\Large{麻超 \quad 201300066}
+\\[6pt]
+{ \large \textit{南京大学人工智能学院}}\\[2pt]
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\setcounter{page}{1}
+\tableofcontents
+\section{Problem 1}
+\subsection{a}
+\textbf{证明:}$Q_k$表示正好有k个关键字被散列到某一特定槽中的概率,则有$\binom{n}{k}$种方法选出n次试验中哪k次成功.被散列到特定槽X0即视为成功,其成功率就是1/n,相反则视为失败.概率为$1-\frac{1}{n}.$其概率服从伯努利二项分布,即概率为$(\frac{1}{n}) ^k$在这个过程之后,剩下了n-k个关键字需要散列到n-1个槽中,概率为$(\frac{n-1}{n} )^{n-k}$,所以总的概率
+\begin{align*}
+    Q_k= & (\frac{1}{n} )^k(\frac{n-1}{n} )^{n-k}\binom{n}{k}                          \\
+    =    & \frac{1}{n^k} \frac{(n-1)^{n-k}}{n^{n-k}} \frac{n!}{k!(n-k!)}               \\
+    =    & (1-1/n)^{n-k}\cdot \frac{n(n-1)...(n-k+1)}{n^k} \cdot \frac{1}{k!}          \\
+    \leq & \frac{n(n-1)...(n-k+1)}{n^k}\cdot \frac{1}{k!}                              \\
+    \leq & \frac{n\cdot n\cdot n\cdot \cdot \cdot n(total-k-times )}{n^k} \frac{1}{k!} \\
+    \leq & \frac{1}{k!}                                                                \\
+    <    & \frac{e^k}{k^k}
+\end{align*}
+\subsection{b}
+被散列到槽中最多的关键字数量视为一个事件$X=X_1\cup X_2\cup...\cup X_n$，其中$X_i$为某个关键字被散列到槽i的事件。所以根据布尔不等式有
+\begin{align*}
+    P_k\leq P(x_1)+P(X_2)+...+P(x_n)=nQ_k
+\end{align*}
+\subsection{c}
+如果需要证明$P_k<\frac{1}{n^2} $,由第二问的结论,需要证明$Q_k<\frac{1}{n^3} $,即需要证明存在常数c>1,使得$Q_{k_0}<\frac{1}{n^3} $对$k_0=c \lg n/ \lg \lg n$成立.
+
+由于$Q_k<\frac{e^k}{k^k}$
+
+所以只需要证明$n^3\leq k!$,即$3<\frac{k_0(\lg k_0-\lg e)}{\lg n} $
+
+即
+\begin{align*}
+    3< & \frac{c\lg n}{\lg n\lg \lg n} (\lg \frac{c\lg n}{\lg \lg n}-\lg e )  \\
+    =  & \frac{c}{\lg \lg n} (\lg c+\lg \lg n-\lg \lg \lg n-\lg e)            \\
+    =  & c(1+\frac{\lg c-\lg e}{\lg \lg n} -\frac{\lg \lg n}{\lg \lg \lg n} )
+\end{align*}
+
+选择一个必要的c的值取决于n的大小,对括号中表达式有$\lim_{n \to \infty} A =1$
+
+存在一个$n_0$,当$n\geq n_0$时,$A\geq 1/2$,因此选择$c>6$,此时必然有当$n\geq n_0$时,$3<cA$.接下来需要说明$n<n_0$的情况.同时,n一定是大于或等于3的,因为如果不是的话,$\lg \lg 2=\lg 1=0$,不能作为除数.
+
+当$3\leq n<n_0$时,选择任何大到足以满足所有情况的c,即$max_{3\leq n<n_0}\{c:3<cx\}$,选择c和6之间相对较大的一个,且必然存在这样的一个数字.(这里的原因还未研究清楚).
+\subsection{d}
+\begin{align*}
+    E(M) & =\sum_{i=1}^{\frac{c\lg n}{\lg \lg n} }i\times Pr(M=i)+\sum_{i=\frac{c\lg n}{\lg \lg n}+1}^{n}i\times Pr(M=i) \\ &< \sum_{i=1}^{\frac{c\lg n}{\lg \lg n} }\frac{c\lg n}{\lg \lg n}\times Pr(M=i)+\sum_{i=\frac{c\lg n}{\lg \lg n}+1}^{n}n\times Pr(M=i)\\ &=\frac{c\lg n}{\lg \lg n}\times Pr(M\leq \frac{c\lg n}{\lg \lg n})+n\times Pr(M>\frac{c\lg n}{\lg \lg n})
+\end{align*}
+
+得证.
+
+对于后一部分,有
+\begin{align*}
+    Pr(M>\frac{c\lg n}{\lg \lg n})=\sum_{k=\frac{c\lg n}{\lg \lg n}+1}^{n}Pr(M=k)\leq \sum_{k=\frac{c\lg n}{\lg \lg n}+1}^{n}\frac{1}{n^2} \leq n\frac{1}{n^2} =\frac{1}{n}
+\end{align*}
+
+所以
+\begin{align*}
+    E(M) & =\frac{c\lg n}{\lg \lg n}\times Pr(M\leq \frac{c\lg n}{\lg \lg n})+n\times Pr(M>\frac{c\lg n}{\lg \lg n}) \\ &\leq \frac{c\lg n}{\lg \lg n}+1\\ &=O(\frac{\lg n}{\lg \lg n} )
+\end{align*}
+\section{Problem 2}
+\subsection{a}
+\textbf{证明:}设字符串x的各个字符为$x=c_{l-1}c_{l-2}...c_2c_1c_0$,其中$c_i$为字符串x从右往左数的第i个字符,用$n_i$表示(是一个数字),l为字符串的长度.
+可以设$\alpha =2^p,\beta=2^p-1$
+
+于是有
+\begin{align*}
+    h(k) & =(\sum_{i=0}^{l-1}(n_i\cdot 2^{ip}))\mod (2^p-1)                                                                             \\
+         & =(\sum_{i=0}^{l-1}(n_i\cdot \alpha^i))\mod \beta                                                                             \\
+         & =(n_0+n_1\cdot \alpha +n_2\cdot \alpha^2+...+n_{l-1}\cdot \alpha^{l-1})\mod \beta                                            \\
+         & =(n_0\mod \beta+n_1\cdot \alpha \mod \beta+n_2\cdot \alpha^2 \mod \beta+...+n_{l-1}\cdot \alpha^{l-1} \mod \beta )\mod \beta \\
+         & =(n_0\mod \beta+(n_1 \mod \beta) \cdot (\alpha \mod \beta) \mod \beta+(n_2\mod \beta) \cdot (\alpha^2 \mod \beta)\mod \beta  \\ &\text{  }+... +(n_{l-1}\mod \beta)\cdot (\alpha^{l-1} \mod \beta)\mod \beta )\mod \beta \\
+         & =((n_0\mod \beta)+(n_1\mod \beta)+(n_2\mod \beta)+...+n_{l-1}\mod \beta)\mod \beta                                           \\
+         & =(n_0+n_1+n_2+...+n_{l-1})\mod \beta
+\end{align*}
+
+对字符串x和y来说,由于只改变了每个字符的顺序,所以其各个字符位之和不变,故$h(k)$不变,即结果与所包含的字符顺序无关.得证.
+\subsection{b}
+\textbf{证明:}设经过s次查找后，回到了槽$h_1(k)$.于是就有$(h_1(k)+sh_2(k))\mod m=h_1(k)\mod m.$此时因为$sh_2(k)$是m的倍数,所以$m|sh_2(k) $由于$gcd(m,h2(k))=d $所以$ (m/d) | s(h_2(k)/d) $由于$gcd(m/d,h_2(k)/d)=1 $所以 $m/d | s$故$s\geq m/d$.所以在回到槽$h_1(k)$之前,必检查散列表总元素数的至少$\frac{1}{d} $个.当d=1时,$\frac{1}{d} =1$,所以可能要检查整个散列表.
+\section{Problem 3}
+\subsection{a}
+对于一个哈希表而言,每一个位置的冲突数由该位置存储元素个数决定,对于任意一个位置p,用$n_p$表示实际存储的元素数量,用$X_p$表示冲突数,则$X_p=n_p-1(n_p\geq 2)$.定义Y为总冲突数(也即题目所求的期望),$Y=X_1+X_2+...+X_m$
+
+易知$X_i\in [0,n-1]$.对于每一个元素,被放到第i个位置的概率$p_1=\frac{1}{m} $,放到其他位置的概率$p_2=1-\frac{1}{m} $.每一个元素放到第i个位置的概率服从二项分布,假设$b_i$表示该位置放了i个元素,故$b_i=\binom{m}{i}p_1^ip_2^{n-i}$
+
+所以
+\begin{align*}
+    E(X_i)=0(b_0+b_1)+1b_2+2b_3+...+(n-1)b_n
+\end{align*}
+
+而$n_p$的期望
+\begin{align*}
+    E(n_p)=0b_0+1b_1+2b_2+...+nb_n
+\end{align*}
+
+两式相减可以得到该位置冲突的数目
+\begin{align*}
+    E(n_p)-E(X_i)=b_1+b_2+...+b_n=1-b_0=1-p_2^n
+\end{align*}
+
+所以进一步可以得到
+\begin{align*}
+    E(X_i)=\frac{n}{m} +(\frac{m-1}{m} )^n-1
+\end{align*}
+
+进而可以得到Y的期望,即为所求期望
+\begin{align*}
+    E(Y)=m\cdot E(X_i)=n-m+m\cdot (\frac{m-1}{m} )^n
+\end{align*}
+\subsection{b}
+对于一个完全随机的哈希函数,一共有n个关键字,m个槽的情况下,一个哈希函数是完美的即它是单射.所以其概率
+\begin{align*}
+    P(n)= & \frac{m}{m} \times \frac{m-1}{m} \times ...\times \frac{m+2-n}{m} \times \frac{m+1-n}{m} \\
+    =     & \frac{m!}{m^n (m-n)!}
+\end{align*}
+\subsection{c}
+由c可知,对于一个随机的哈希函数,其完美的概率$P=\frac{m!}{m^n (m-n)!}$,而多次选取哈希函数以求得一个完美的哈希函数,符合二项分布的特征,故$E(X)=1/p=\frac{m^n(m-n)!}{m!} $
+\subsection{d}
+由b和c可知,其服从二项分布,每一次尝试得到完美的哈希函数概率都不变,于是尝试的前N次都不完美的概率是
+\begin{align*}
+    P(N)=(1-p)^N=(\frac{m!}{m^n (m-n)!})^N
+\end{align*}
+\subsection{e}
+假设任取了a个哈希函数,其中至少有一个哈希函数是完美的的概率是$1-\frac{1}{n} $,也就是让不存在完美的哈希函数的概率是小于$\frac{1}{n} $.对于任意一个哈希函数而言,其不是完美的的概率是$p=1-\frac{m!}{m^n (m-n)!}$.
+
+那么也就是说任取a个哈希函数,其没有一个完美的概率是$p^a$.那么此时要求$p^a<\frac{1}{n} $.所以$a<\log_p\frac{1}{n} $
+\section{Problem 4}
+当i严格为2的幂次时,此次调用的代价是i,否则为1,那么对于有n个操作组成的操作序列而言,共有最多$\lg n$个操作的代价为n,其他的均为1,于是
+\begin{align*}
+    cost(n)=\sum_{i=1}^{n}c_i & \leq n+\sum_{j=0}^{\left\lceil \lg n\right\rceil }\frac{n}{2^j} \\
+                              & \leq n+n+\frac{n}{2} +\frac{n}{4} +...+2+1                      \\
+                              & \leq n+\frac{n-\frac{1}{2} }{1-\frac{1}{2} }                    \\
+                              & =n+(2n-1)                                                       \\
+                              & \leq 3n
+\end{align*}
+
+所以每个操作的摊还代价$\overline{c_i}\leq \frac{3n}{n} =3$,即摊还代价为$O(1)$.
+\section{Problem 5}
+对于一个散列表,如果插入和删除时不涉及散列表大小的调整,那么其所需时间为O(1).假设它此时需要承担插入n个元素的任务,由于散列表的大小i只有扩大2倍和缩小一半的操作,所以其必定为2的幂次.所以需要执行的所有代价
+\begin{align*}
+    cost(n)= & \sum_{i=1}^{n}c_i                                 \\
+    =        & n+\sum_{\frac{3}{4} 2^i\leq n}(\frac{3}{4} 2^i-1) \\
+    \leq     & n+\sum_{\frac{3}{4} 2^i\leq n}(\frac{3}{4} 2^i)   \\
+    \leq     & \frac{5}{2} n
+\end{align*}
+
+所以其每个操作的摊还代价$\overline{c_i}=\frac{cost(n)}{n} \leq \frac{2.5n}{n} =2.5$,即其摊还代价为O(1).由于删除操作可以视为插入操作的逆操作,故可得知对于任何插入和删除序列，每个操作的摊销时间仍然是O(1).
+\end{document}

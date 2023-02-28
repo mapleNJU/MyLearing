@@ -1,0 +1,179 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{ctex}
+\usepackage{emptypage} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{graphicx}
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{enumerate}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[marginal]{footmisc}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\newgeometry{left=3cm,top=2.5cm,bottom=2.5cm,right=3cm}
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+
+\lstset{
+	backgroundcolor=\color{green!10!blue!15},%代码块背景色
+	rulesepcolor= \color{red!40!blue!100}, %代码块边框颜色
+	breaklines=true,  %代码过长则换行
+	breakatwhitespace=false,
+	numbers=left, %行号在左侧显示
+	numberstyle= \small,%行号字体
+	keywordstyle= \color{blue},%关键字颜色
+	commentstyle=\color{gray}, %注释颜色
+	frame=shadowbox%用方框框住代码块
+}
+
+\renewcommand{\baselinestretch}{1.5}%可加可不加，控制行间距
+
+\title{\textbf{Ps1-201300066}}%标题
+
+\author{
+\\
+\Large{麻超 \quad 201300066}
+\\[6pt]
+{ \large \textit{南京大学人工智能学院}}\\[2pt]
+}
+
+\date{}
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+
+\begin{document}
+\maketitle
+\setcounter{page}{1}
+
+\section{Problem 1}
+解：
+1.除此之外，还应证明结果与原数组有相同的元素。因为该算法只有交换两数位置这一过程，没有添加或删除元素，故其正确。
+
+2.循环不变量：A[i……n]中最小元素的位置最多为j.\par
+证明：第一次循环时显然可得。\par
+设j=k，即证明A[i……n] 的最小元素的位置至多为k.则需要比较A[k]与A[k-1].在进行循环时，需要比较A[k]与A[k-1]的大小，易得无论这二者大小如何，最小的元素必然会存在于先前的k-1个元素之中。得证。
+
+3.循环不变量：A[1,……,i]在循环过程中是按照顺序排列的。\par
+证明：当i=1时，可知j=2时，A[1,……,n]中A[1]为最小值，自然按顺序排列。\par
+设当i=k时成立，即A[1,……,k]为按顺序排列。由b可知A[k,……,n]中A[k]为最小值。\par
+则当i=k+1时，同样由b可知，A[k+1,……,n]中A[k+1]为最小值。\par
+所以A[1,……,k+1]按顺序排列。\par
+当i=n-1时，循环终止，且A[1,……,n]按顺序排列。\par
+由上述归纳法可知，A[1,……,i]在循环过程中是按照顺序排列的。这一结论正确。
+\section{Problem 2}
+1.T(n) =c1+c2(n+2)+c3(n+1)=(c2+c3)n+(c1+2c2+c3) = $\Theta (n)$.
+
+2.循环不变量：在第i次循环后，$y=\sum_{j=i}^n c_jx^{j-i}$，为不变量。
+
+证明：奠基：当i=n时，$y=c_n+x\times 0=c_nx^0\sum_{j=i}^n c_jx^{j-i} $
+
+归纳：设当i=k时原式成立，即$y=\sum_{j=k}^n c_kx^{j-k}$
+
+则当i=k+1时，$y'=c_{k+1}+x\times y=c_{k+1}+x\times \sum_{j=k+1}^n c_jx^{j-k}=\\
+	c_{k+1}+\sum_{j=k}^n c_jx^{j-k+1}=\sum_{j=k+1}^n c_{k+1}x^{j-k-1}$，原式成立。
+
+故由数学归纳法，原式成立。
+\section{Problem 3}
+\begin{enumerate}
+	\item $f\in \Theta(g)$
+	\item $f\in O(g)$
+	\item $f\in O(g)$
+	\item $f\in \Theta(g)$
+	\item $f\in \Theta(g)$
+	\item $f\in \Theta(g)$
+	\item $f\in \Omega(g)$
+	\item $f\in \Omega(g)$
+	\item $f\in \Omega(g)$
+	\item $f\in \Omega(g)$
+	\item $f\in \Omega(g)$
+	\item $f\in O(g)$
+	\item $f\in O(g)$
+	\item $f\in \Theta(g)$
+	\item $f\in \Omega(g)$
+	\item $f\in O(g)$
+\end{enumerate}
+
+\section{Problem 4}
+$1=n^{1/\lg n}\ll \lg(\lg^{*} n)\ll \lg^{*} n=\lg^{*}(\lg n)\ll 2^{\lg^{*} n}\\
+	\ll \ln \ln n\ll \sqrt{\lg n}\ll \ln n\ll \lg^2 n\ll 2^{\sqrt{2 \lg n}}\\
+	\ll (\sqrt{2}^{\lg n})\ll n=2^{\lg n}\ll n\lg n=\lg(n!)\ll n^2\ll 4^{\lg n}\\
+	\ll n^3\ll (\lg n)!\ll (\lg n)^{\lg n}\ll n^{\lg \lg n}\ll (3/2)^n\\
+	\ll 2^n\ll n* 2^n\ll e^n\ll n!\ll (n+1)!\ll 2^{2^n}\ll 2^{2^{n+1}}$
+\section{Problem 5}
+解：数组为[1……n].其长度为n.\par
+设两个栈分别为S，T.令S的栈底元素为A[1],T的栈底元素为A[n]，依次向数组中央靠拢。由于数组长度为n，故若两堆栈的元素数量之和小于n，不会发生溢出。设S.top=k,T.top=m,k<m.初始情况下S.top=-1,T.top=n.\par
+在一般和未到n的情况下，分别有如下操作：\\
+1.Push(S,x):
+\par\setlength\parindent{2em}if S.top+1!=T.top
+\par\setlength\parindent{4em}S.top=S.top+1
+\par\setlength\parindent{4em}S[S.top]=x
+\par\setlength\parindent{2em}else return "errorsize"\\
+2.Push(T,x):
+\par\setlength\parindent{2em}if S.top!=T.top
+\par\setlength\parindent{4em}T.top=T.top-1
+\par\setlength\parindent{4em}T[T.top]=x
+\par\setlength\parindent{2em}else return "errorsize"\\
+3.Pop(S):
+\par\setlength\parindent{2em}if S.empty()=True:
+\par\setlength\parindent{4em}error"underflow"
+\par\setlength\parindent{2em}else:
+\par\setlength\parindent{4em}S.top=S.top-1
+\par\setlength\parindent{4em}return S[S.top+1]\\
+4.Pop(T):
+\par\setlength\parindent{2em}if T.empty()=True:
+\par\setlength\parindent{4em}error"underflow"
+\par\setlength\parindent{2em}else:
+\par\setlength\parindent{4em}T.top=T.top+1
+\par\setlength\parindent{2em}return T[T.top+1]\\
+5.S.empty():
+\par\setlength\parindent{2em}if S.top=-1
+\par\setlength\parindent{4em}return True
+\par\setlength\parindent{2em}else return false\\
+6.T.empty():
+\par\setlength\parindent{2em}if T.top=n
+\par\setlength\parindent{4em}return True
+\par\setlength\parindent{2em}else return false\\
+7.S.size():
+\par\setlength\parindent{2em}return S.top+1\\
+8.T.size:
+\par\setlength\parindent{2em}return n-T.top\\
+9.search(S,x):
+\par\setlength\parindent{2em}for i in 0 to S.top:
+\par\setlength\parindent{2em}if A[i]==x:
+\par\setlength\parindent{4em}return True
+\par\setlength\parindent{2em}return False\\
+10.search(T,x):
+\par\setlength\parindent{2em}for i from T.top to n-1:
+\par\setlength\parindent{2em}if A[i]==x:
+\par\setlength\parindent{4em}return True
+\par\setlength\parindent{2em}return False
+\section{Problem 6}
+解：令S，T为两堆栈.
+
+算法：令如下操作：
+\begin{itemize}
+	\item Enqueue(x):将X放入S中。
+	\item Dequeue(x):若T为空堆栈，则从堆栈S中反复取出元素并将其放入堆栈T中，直到堆栈S为空。
+\end{itemize}
+经过上述操作后，从T中取出元素，并return it.\par
+证明：堆栈的特点为后进先出，队列为先进先出。设x,y为两个元素。\par
+first step:Enqueue:将x和y先后入队，即放入S中。\par
+next step:Dequeue:出队操作，此时T为空，则将S中元素分别放入T中，由于堆栈执行后进先出原则，则y相较于x先进入T中，之后，从T中取出元素，同样由于堆栈的特点，x相较于y会先出，这样便实现了先进先出的功能。\par
+利用数学归纳法证明：\par
+奠基：当只有一个元素时，自然正确。\par
+归纳：设当有n个元素时正确，则当有n+1个元素时，将前n个元素分为一类，第n+1个元素分为第二类，则和上面next step的算法基本步骤一样，不再赘述。得证。\par
+故该算法的正确性得到验证。\par
+由于只进行了入队和出队操作，故时间复杂度为$\Theta(1)$ time.
+
+
+\end{document}

@@ -1,0 +1,345 @@
+% 请确保文件编码为utf-8，使用XeLaTex进行编译，或者通过overleaf进行编译
+
+\documentclass[answers]{exam}  % 使用此行带有作答模块
+% \documentclass{exam} % 使用此行只显示题目
+
+\usepackage{xeCJK}
+\usepackage{zhnumber}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{enumerate}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{floatrow}
+\usepackage{blindtext}
+\pagestyle{headandfoot}
+\firstpageheadrule
+\firstpageheader{南京大学}{机器学习导论}{习题二}
+\runningheader{南京大学}
+{机器学习导论}
+{习题二}
+\runningheadrule
+\firstpagefooter{}{第\thepage\ 页（共\numpages 页）}{}
+\runningfooter{}{第\thepage\ 页（共\numpages 页）}{}
+
+
+\setlength\linefillheight{.5in}
+
+\renewcommand{\solutiontitle}{\noindent\textbf{解：}\par\noindent}
+
+\renewcommand{\thequestion}{\zhnum{question}}
+\renewcommand{\questionlabel}{\thequestion .}
+\renewcommand{\thepartno}{\arabic{partno}}
+\renewcommand{\partlabel}{\thepartno .}
+
+\lstset{language=Matlab}%这条命令可以让LaTeX排版时将Matlab关键字突出显示
+\lstset{
+	breaklines,%这条命令可以让LaTeX自动将长的代码行换行排版
+	basicstyle=\footnotesize\ttfamily, % Standardschrift
+	backgroundcolor=\color[rgb]{0.95,0.95,0.95},
+	keywordstyle=\color{blue},
+	commentstyle=\color{cyan},
+	tabsize=4,numbers=left,
+	numberstyle=\tiny,
+	frame=single,
+	%numbers=left, % Ort der Zeilennummern
+	numberstyle=\tiny, % Stil der Zeilennummern
+	%stepnumber=2, % Abstand zwischen den Zeilennummern
+	numbersep=5pt, % Abstand der Nummern zum Text
+	tabsize=2, % Groesse von Tabs
+	extendedchars=false, %
+	breaklines=true, % Zeilen werden Umgebrochen
+	keywordstyle=\color{red},%这一条命令可以解决代码跨页时, 章节标题, 页眉等汉字不显示的问题
+	stringstyle=\color{white}\ttfamily, % Farbe der String
+	showspaces=false, % Leerzeichen anzeigen ?
+	showtabs=false, % Tabs anzeigen ?
+	xleftmargin=17pt,
+	framexleftmargin=17pt,
+	framexrightmargin=5pt,
+	framexbottommargin=4pt,
+	%backgroundcolor=\color{lightgray},
+	showstringspaces=false % Leerzeichen in Strings anzeigen ?
+}
+\renewcommand{\lstlistingname}{CODE}
+\lstloadlanguages{% Check Dokumentation for further languages ...
+	%[Visual]Basic
+	%Pascal
+	%C
+	Python
+	%XML
+	%HTML
+	%Java
+}
+\input{notations}
+
+\begin{document}
+\Large
+\noindent
+% 姓名学号
+姓名：麻超 \\
+学号：201300066 \\
+\begin{questions}
+	\question [20] \textbf{没有免费的午餐定理}
+
+	\begin{enumerate}
+		\item 根据教材1.4节“没有免费的午餐”定理, 所有学习算法的期望性能都和随机胡猜一样, 是否还有必要继续进行研究机器学习算法？
+		\item 教材1.4节在论述“没有免费的午餐”定理时, 默认使用了“分类错误率”作为性能度量来对分类器进行评估.若换用其他性能度量$\ell$,则教材中式（1.1）将改为
+		      \begin{equation}
+			      E_{ote}(\mathfrak{L}_a|X,f)=\sum_h \cdot\sum_{x\in\mathcal{X}-X}P(\vx)\ell(h(\vx),f(\vx))P(h|\mathcal{X},\mathfrak{L}_a)
+		      \end{equation}
+		      试证明“没有免费的午餐定理”仍成立.
+	\end{enumerate}
+	\begin{solution}
+		\begin{enumerate}
+			\item[1] 有必要继续研究.\\因为"没有免费的午餐"定理实际上可以理解为针对某一域的所有问题,所有算法的期望性能是相同的.但是要注意"所有问题"和"期望",所以其并未否认两个算法的优劣之分.但在实际研究过程中,我们往往关注某一个函数或者某一类函数,这时不同的算法就有了优劣之分.
+			\item[2] 先证明一个引理:\\
+			      \textbf{引理:}在二分类问题下,对于任意的性能度量指标$l$,$l(h(x)=f(x))+l(h(x)\neq f(x))=A,A$为某一常数.\\
+			      \textbf{证明:}对于二分类问题,任意性能度量中的正确分类得分与错误分类得分应当固定,即:\\
+			      $$
+				      l(0,0)=l(1,1),l(0,1)=l(1,0)
+			      $$
+			      因此
+			      $$
+				      l(0,0)+l(0,1)=l(1,1)+l(1,0)=A
+			      $$
+			      $$
+				      \therefore l(h(x)=f(x))+l(h(x)\neq f(x))=A
+			      $$
+			      现在证明定理:\\
+			      \begin{align*}
+				      \sum_f E_{ote}(\mathfrak{L}_a|X,f) & =\sum_f\sum_h \cdot\sum_{x\in\mathcal{X}-X}P(\vx)\ell(h(\vx),f(\vx))P(h|\mathcal{X},\mathfrak{L}_a) \\&=\sum_{x\in\mathcal{X}-X}P(\vx)\sum_f\ell(h(\vx),f(\vx))\sum_hP(h|\mathcal{X},\mathfrak{L}_a)\\&=\sum_{x\in\mathcal{X}-X}P(\vx)\sum_hP(h|\mathcal{X},\mathfrak{L}_a)(\frac{1}{2} 2^{|\mathcal X|}l(h(\vx)=f(\vx))+\\& \ \ \frac{1}{2} 2^{|\mathcal X|}l(h(\vx)\neq f(\vx)))\\&=2^{|\mathcal X|-1}\cdot A\sum_{x\in\mathcal{X}-X}P(\vx)\cdot 1
+			      \end{align*}
+			      由此说明度量学习结果与学习算法无关,"没有免费的午餐"定理仍成立.
+		\end{enumerate}
+	\end{solution}
+
+
+	\question [15] \textbf{线性回归}
+
+	给定包含$m$个样例的数据集$\mD=\left\{\left(\vx_{1}, y_{1}\right),\left(\vx_{2}, y_{2}\right), \cdots,\left(\vx_{m}, y_{m}\right)\right\}$, 其中$\vx_{i}=\left(x_{i 1} ; x_{i 2} ; \cdots ; x_{i d}\right) \in \mathbb{R}^{d}$, $y_{i} \in\mathbb{R}$为$\vx_{i}$的实数标记.
+	针对数据集$\mD$中的$m$个示例, 教材3.2节所介绍的“线性回归”模型 要求该线性模型的预测结果和其对应的标记之间的误差之和最小:
+	\begin{align}
+		\left(\vw^{*}, b^{*}\right) & =\frac{1}{2}\underset{(\vw, b)}{\arg \min } \sum_{i=1}^{m}\left(f\left(\vx_{i}\right)-y_{i}\right)^{2} \notag                            \\
+		                            & =\frac{1}{2}\underset{(\vw, b)}{\arg \min } \sum_{i=1}^{m}\left(y_{i}-(\vw^\top \vx_{i}+b)\right)^{2}\;.\label{ch3_eq:linear_regression}
+	\end{align}
+	即寻找一组权重$(\vw, b)$, 使其对$\mD$中示例预测的整体误差最小.\footnote{公式~\ref{ch3_eq:linear_regression}中系数$\frac{1}{2}$是为了化简后续推导. 有时也会乘上$\frac{1}{m}$以计算均方误差 (Mean Square Error), 由于平均误差和误差和在优化过程中只相差一个常数, 不影响优化结果, 因此在后续讨论中省略这一系数.}
+	定义$y=\left[y_{1}; \ldots, y_{m}\right] \in \mathbb{R}^{m}$, 且 $\mX=\left[\vx_{1}^\top ; \vx_{2}^\top ; \cdots ; \vx_{m}^\top\right] \in \mathbb{R}^{m \times d}$, 请将线性回归的优化过程使用矩阵进行表示.
+
+	\begin{solution}
+		重新定义矩阵$\mX$为\\
+		\begin{equation*}
+			\mX = \begin{pmatrix}
+				\vx_1^\top & 1      \\
+				\vx_2^\top & 1      \\
+				\vdots     & \vdots \\
+				\vx_m^\top & 1
+			\end{pmatrix}
+		\end{equation*}
+		并令优化目标向量$(\vw,b)$合写为$\hat{\vw}$,于是原问题等价于:
+		\begin{align*}
+			\hat{\vw}^*=\underset{\hat\vw}{\arg \min }\ \left(\vy -\mX \hat\vw\right)^\top \left(\vy -\mX \hat\vw\right)
+		\end{align*}
+		令 $E_{\hat\vw}=\left(\vy -\mX \hat\vw\right)^\top \left(\vy -\mX \hat\vw\right)$ ,对于 $\hat\vw$ 求导得到:
+		\begin{equation*}
+			\frac{\partial E_{\hat\vw}}{\partial \hat\vw}=2\ \mX^\top\left(\mX \hat\vw-\vy\right)
+		\end{equation*}
+		令上式为零可以得到 $\hat\vw$ 的闭式解.\\
+		如果矩阵 $\mX^\top\mX$ 是满秩矩阵或者正定矩阵,令上式为零,则可以得到
+		\begin{equation*}
+			\hat\vw^*=\left(\mX^\top\mX\right)^{-1}\mX^\top y
+		\end{equation*}
+		如果矩阵 $\mX^\top\mX$ 不满秩,则可以得到多个最优解.
+	\end{solution}
+
+
+	\question [25] \textbf{正则化}
+
+	在实际问题中,我们常常会遇到示例相对较少, 而特征很多的场景. 在这类情况中如果直接求解线性回归模型, 较少的示例无法获得唯一的模型参数, 会具有多个模型能够"完美"拟合训练集中的所有样例, 实现插值 (interpolation). 此外, 模型很容易过拟合. 为缓解这些问题, 常在线性回归的闭式解中引入正则化项$\Omega(\vw)$, 通常形式如下:
+	\begin{equation}
+		\vw_{\mathbf{Ridge}}^{*}, b_{\mathbf{Ridge}}^{*}=\underset{\vw, b}{\arg \min }\; \frac{1}{2}\left\|\mX \vw+\ones b-\mathbf{y}\right\|_{2}^{2}+\lambda \Omega(\vw)  \label{eq:ls-regular}\;.
+	\end{equation}
+	其中, $\lambda > 0$为正则化参数. 正则化表示了对模型的一种偏好, 例如$\Omega(\vw)$一般对模型的复杂度进行约束, 因此相当于从多个在训练集上表现同等预测结果的模型中选出模型复杂度最低的一个.
+
+	考虑岭回归 (ridge regression)问题, 即设置公式\eqref{eq:ls-regular}中正则项$\Omega(\vw) = \lVert \vw\rVert_2^2$. 本题中将对岭回归的闭式解以及正则化的影响进行探讨.
+	\begin{enumerate}
+		\item 请给出岭回归的最优解$\vw_{\mathbf{Ridge}}^*$和$b_{\mathbf{Ridge}}^*$的闭式解表达式, 并使用矩阵形式表示, 分析其最优解和原始线性回归最优解$\vw_{\mathbf{LS}}^*$和$b_{\mathbf{LS}}^*$的区别;
+		\item 请证明对于任何矩阵$\mX$, 下式均成立
+		      \begin{align}
+			      \left(\mX \mX^{\top}+\lambda \mmI_m\right)^{-1} \mX=\mX\left(\mX^{\top} \mX+\lambda \mmI_d\right)^{-1}\;.
+		      \end{align}
+		      请思考, 上述的结论是否能够帮助岭回归的计算, 在何种情况下能够带来帮助?
+		\item 针对波士顿房价预测数据 (\lstinline{boston}), 编程实现原始线性回归模型和岭回归模型, 基于闭式解在训练集上构建模型, 计算测试集上的均方误差 (Mean Square Error, MSE). 请参考\lstinline{LinearRegression.py}进行模型构造.
+		      \lstinputlisting[language=Python]{LinearRegression.py}
+		      \begin{enumerate}
+			      \item 对于线性回归模型, 请直接计算测试集上的MSE;
+			      \item 对于岭回归问题, 请考察不同正则项权重$\lambda$的取值范围, 并观察训练集MSE、测试集MSE和$\lambda$的取值的关系, 总结变化的规律;
+		      \end{enumerate} 除示例代码中使用到的sklearn库函数外, 不能使用其他的sklearn函数, 需要基于numpy实现线性回归模型和MSE的计算.
+	\end{enumerate}
+	\begin{solution}
+		\begin{enumerate}
+			\item[1.]岭回归问题的优化目标可以写作如下形式:
+			      \begin{equation*}
+				      \vw_{\mathbf{Ridge}}^{*}, b_{\mathbf{Ridge}}^{*}=\underset{\vw, b}{\arg \min }\; \frac{1}{2}\left\|\mX \vw+\ones b-\mathbf{y}\right\|_{2}^{2}+\lambda \| \vw \|_2^2 \; .
+			      \end{equation*}
+			      令右式为$E$,将$E$对于$\vw,b$ 求导可得:
+			      \begin{align}
+				      \frac{\partial E}{\partial \vw} & =\mX^\top\mX\vw+\mX^\top\left(\ones b-\mathbf{y}\right)+2\lambda \vw\label{part:vw} \\
+				      \frac{\partial E}{\partial b}   & =\ones^\top\mX\vw+\ones^\top\ones b-\ones^\top\mathbf{y}\label{part:b}
+			      \end{align}
+			      由式 \ref{part:vw} 可得,若矩阵 $\mX^\top\mX+2\lambda\mmI_d$ 可逆,则有
+			      \begin{equation}
+				      \vw_{\mathbf{Ridge}}^{*}=\left(\mX^\top\mX+2\lambda\mmI_d\right)^{-1}\mX^\top\left(\mathbf{y}-\ones b\right)\label{ans:w}
+			      \end{equation}
+			      将该式带入式 \ref{part:b} 可以解得
+			      \begin{equation*}
+				      b_{\mathbf{Ridge}}^{*}=\frac{\ones^\top\left(\mX\left(\mX^\top\mX+2\lambda\mmI_d\right)^{-1}\mX^\top-\mmI_m\right)\mathbf y}{\ones^\top\left(\mX\left(\mX^\top\mX+2\lambda\mmI_d\right)^{-1}\mX^\top-\mmI_m\right)\ones}
+			      \end{equation*}
+			      同时将 $b$ 的结果带入式 \ref{ans:w} 即可得到
+			      \begin{align*}
+				      \vw_{\mathbf{Ridge}}^{*}=\left(\mX^\top\mX+2\lambda\mmI_d\right)^{-1}\mX^\top\left(\mathbf{y}-\ones \frac{\ones^\top\left(\mX\left(\mX^\top\mX+2\lambda\mmI_d\right)^{-1}\mX^\top-\mmI_m\right)\mathbf y}{\ones^\top\left(\mX\left(\mX^\top\mX+2\lambda\mmI_d\right)^{-1}\mX^\top-\mmI_m\right)\ones}\right)
+			      \end{align*}
+			      可以求得原始线性回归的最优解为
+			      \begin{equation*}
+				      \left(\vw_{\mathbf{LS}}^*, b_{\mathbf{LS}}^*\right) = \hat\vw^*=\left(\mX^\top\mX\right)^{-1}\mX^\top y
+			      \end{equation*}
+			      两个闭式解的区别在于其的求逆矩阵不同,岭回归问题为  $\left(\mX^\top\mX+2\lambda\mmI_d\right)^{-1}$ ,一定是一个满秩矩阵,但是线性回归问题为 $\left(\mX^\top\mX\right)^{-1}$, 不一定满秩.
+			\item[2.]
+			      证明过程如下:
+			      \begin{align*}
+				       & \left(\mX \mX^{\top}+\lambda \mmI_m\right)^{-1} \mX \\=&\mmI_m\cdot \mX\cdot \left(\mX^{\top} \mX+\lambda \mmI_d\right)\\=&\mX\mX^\top\mX+\lambda \mX\\
+				       & \mX\left(\mX^{\top} \mX+\lambda \mmI_d\right)^{-1}  \\=&\left(\mX \mX^{\top}+\lambda \mmI_m\right)\cdot \mX\cdot\mmI_d\\=&\mX\mX^\top\mX+\lambda \mX
+			      \end{align*}
+			      得证.
+			      在一定条件下可以帮助岭回归的计算.左边的式子秩为$m$,右边为$d$,故使得我们在计算时可以挑选一个较低的秩的式子来计算.
+			\item[3.]
+			      \textbf{a.}线性回归模型在测试集上的MSE=20.72402343735016\\
+			      \textbf{b.}岭回归问题的MSE如下表:
+
+			      \begin{center}
+				      \begin{tabular}{|c|c|c|}
+					      \hline
+					      $\lambda$   & 训练集的MSE & 测试集的MSE \\
+					      \hline
+					      0.000000    & 22.985016   & 20.724023   \\
+					      \hline
+					      0.000100    & 22.985017   & 20.724114   \\
+					      \hline
+					      0.001000    & 22.985020   & 20.724909   \\
+					      \hline
+					      0.010000    & 22.985320   & 20.733081   \\
+					      \hline
+					      0.100000    & 23.006670   & 20.822155   \\
+					      \hline
+					      1.000000    & 23.334895   & 21.393400   \\
+					      \hline
+					      10.000000   & 23.948114   & 21.947483   \\
+					      \hline
+					      100.000000  & 26.449094   & 23.832017   \\
+					      \hline
+					      1000.000000 & 32.094836   & 28.831936   \\
+					      \hline
+				      \end{tabular}
+			      \end{center}
+
+			      随着$\lambda$增大,训练集和测试集的 MSE 都在增大.
+		\end{enumerate}
+	\end{solution}
+
+	\question [20] \textbf{线性判别分析}
+
+	教材3.4节介绍了“线性判别分析”模型LDA (Linear Discriminative Analysis), 本题首先针对LDA从分布假设的角度进行推导和分析.
+	考虑$N$分类问题, 训练集 $\left\{(\vx_1,y_1),(\vx_2,y_2),\ldots,(\vx_m,y_m)\right\}$, 其中, 第 $n$ 类样例从高斯分布 $\mathcal{N}(\vmu_n,\mSigma_n)$ 中独立同分布采样得到 (其中, $n=1,2,\cdots,N$). 记该类样例数量为 $m_n$. 类别先验为 $p\left(y=n\right)=\pi_n$, 反映了各类别出现的概率. 若$\vx\in \mathbb{R}^d \sim \mathcal{N}(\vmu,\mSigma)$, 则其概率密度函数为
+	\begin{align}
+		p(\vx)=\frac{1}{(2\pi)^{\frac{d}{2}}\det\left(\mSigma\right)^\frac{1}{2}}\exp\left(-\frac{1}{2}(\vx-\vmu)^\top\mSigma^{-1}(\vx-\vmu)\right).
+	\end{align}
+	假设不同类别的条件概率为高斯分布, 当不同类别的协方差矩阵$\mSigma_n$相同时, 对于类别的预测转化为类别中心之间的线性问题, % 因此在这一假设下, 该方法也被称为线性判别分析 , 简称LDA. 
+	下面对这一模型进行进一步分析.
+	假设$\mSigma_n = \mSigma$, 分析LDA的分类方式以及参数估计步骤.
+	\begin{enumerate}
+		\item \label{Q1q1}样例 $\vx$ 的后验概率$p\left(y=n\mid \vx\right)$表示了样例属于第$n$类的可能性, 当计算样例针对$N$个类别的后验概率后, 找出后验概率最大的类别对样例的标记进行预测, 即 $\arg\max_n$ $p\left(y=n\mid \vx\right)$. 等价于考察 $\ln p(y=n\mid \vx)$的大小,  请证明在此假设下,
+		      \begin{equation}
+			      \arg\max_y p\left(y\mid \vx\right)=\arg\max_n\; \underbrace{\vx^{\top} \mSigma^{-1} \vmu_{n}-\frac{1}{2} \vmu_{n}^{\top} \mSigma^{-1} \vmu_{n}+\ln \pi_{n}}_{\delta_n(\vx)}    \;.
+		      \end{equation}
+		      其中 $\delta_{n}(\vx)$ 为LDA在分类时的判别函数.
+		\item \label{Q1q2} 在LDA模型中, 需要估计各类别的先验概率, 以及条件概率中高斯分布的参数. 针对二分类问题 ($N=2$), 使用如下方式估计类别先验、均值与协方差矩阵:
+		      \begin{align}
+			      \hat{\pi}_{n} & =\frac{m_n}{m}; \quad
+			      \hat{\vmu}_{n}=\frac{1}{m_n}\sum_{y_{i}=n} \vx_{i}\;,                                                                                       \\
+			      \hat{\mSigma} & =\frac{1}{m-N}\sum_{n=1}^{N} \sum_{y_{i}=n}\left(\vx_{i}-\hat{\vmu}_{n}\right)\left(\vx_{i}-\hat{\vmu}_{n}\right)^{\top}\;.
+		      \end{align}
+		      LDA使用这些经验量替代真实参数, 计算判别式 $\delta_n(\vx)$ 并按照第\ref{Q1q1}问中的准则做出预测. 请证明:
+		      \begin{equation}
+			      \vx^{\top} \hat{\mSigma}^{-1}\left(\hat{\vmu}_{2}-\hat{\vmu}_{1}\right)>\frac{1}{2}\left(\hat{\vmu}_{2}+\hat{\vmu}_{1}\right)^{\top} \hat{\mSigma}^{-1}\left(\hat{\vmu}_{2}-\hat{\vmu}_{1}\right)-\ln \left(m_{2} / m_{1}\right)
+		      \end{equation}时 LDA 将样例预测为第 2 类. 请分析这一判别方式的几何意义.
+		\item 在LDA中, 对样例$\vx$的判别可视为在投影的空间中和某个阈值进行比较. 上述推导通过最大后验概率的方法得到对投影后样例分布的需求, 而Fisher判别分析 (Fisher Discriminant Analysis, FDA)也是一种常见的线性判别分析方法, 直接对样例投影后数据的分布情况进行约束.
+		      FDA一般通过广义瑞利商进行求解, 请基于教材3.4节对“线性判别分析”的介绍，对广义瑞利商的性质进行分析, 探讨FDA多分类推广的性质.
+		      下面请说明对于$N$类分类问题, FDA投影的维度最多为$N-1$, 即投影矩阵$\mW\in\mathbb{R}^{d\times (N-1)}$.\\
+		      提示：矩阵的秩具有如下性质：
+		      对于矩阵$\mathbf{A}\in\mathbb{R}^{m \times n}$, 矩阵$\mathbf{B}\in\mathbb{R}^{n \times r}$, 则
+		      \begin{equation}
+			      \operatorname{rank}(\mathbf{A})+\operatorname{rank}(\mathbf{B})-n \leq \operatorname{rank}(\mathbf{A B}) \leq \min \{\operatorname{rank}(\mathbf{A}), \operatorname{rank}(\mathbf{B})\}\;.
+		      \end{equation}
+		      对于任意矩阵$\mA$, 以下公式成立
+		      \begin{equation}
+			      \operatorname{rank}(\mA)=\operatorname{rank}\left(\mathbf{A}^{\top}\right)=\operatorname{rank}\left(\mathbf{A} \mathbf{A}^{\top}\right)=\operatorname{rank}\left(\mathbf{A}^{\top} \mathbf{A}\right)\;.
+		      \end{equation}
+	\end{enumerate}
+	\begin{solution}
+		\begin{enumerate}
+			\item[1.]
+			      \begin{align*}
+				      p(y=n|x)=  & \frac{p(\vx|y=n)p(y=n)}{p(\vx)}                                                                                                                                                                                                                                                                                    \\=&\frac{p(\vx|y=n)p(y=n)}{p(\vx)}{\sum_{i=1}^{m}}p(\vx|y=i)\\
+				      =          & \frac{\frac{1}{(2\pi_n)^{\frac{d}{2}}\det\left(\mSigma\right)^\frac{1}{2}}\exp\left(-\frac{1}{2}(\vx-\vmu_n)^\top\mSigma^{-1}(\vx-\vmu_n)\right)\pi_{n}}{\sum_{i=1}^{m}\frac{1}{(2\pi_i)^{\frac{d}{2}}\det\left(\mSigma\right)^\frac{1}{2}}\exp\left(-\frac{1}{2}(\vx-\vmu_i)^\top\mSigma^{-1}(\vx-\vmu_i)\right)} \\
+				      =          & \frac{\exp\left(-\frac{1}{2}(\vx-\vmu_n)^\top\mSigma^{-1}(\vx-\vmu_n)\right)\pi_{n}}{\sum_{i=1}^{m}\exp\left(-\frac{1}{2}(\vx-\vmu_i)^\top\mSigma^{-1}(\vx-\vmu_i)\right)}                                                                                                                                         \\
+				      \because   & \sum_{i=1}^{m}\exp\left(-\frac{1}{2}(\vx-\vmu_i)^\top\mSigma^{-1}(\vx-\vmu_i)\right)\text{is a constant M}                                                                                                                                                                                                         \\
+				      \therefore & p(y=n|x)=\frac{\exp\left(-\frac{1}{2}(\vx-\vmu_n)^\top\mSigma^{-1}(\vx-\vmu_n)\right)\pi_{n}}{M}
+			      \end{align*}
+
+			      $\therefore $以下内容成立:
+
+			      \begin{align*}
+				      \arg\max_y p\left(y\mid \vx\right)= & \arg\max_y \exp(-\frac{1}{2} (\vx-\vmu_n)^T\mSigma^{-1}(\vx-\vmu_n))\cdot \pi_n                                     \\
+				      =                                   & \arg\max_y \ln(\exp(-\frac{1}{2} (\vx-\vmu_n)^T\mSigma^{-1}(\vx-\vmu_n))\cdot \pi_n)                                \\
+				      =                                   & \arg\max_y \ln \pi_n-\frac{1}{2} (\vx-\vmu_n)^T\mSigma^{-1}(\vx-\vmu_n)                                             \\
+				      =                                   & \arg\max_y \ln \pi_n+\vx^T\mSigma^{-1}\vmu_n-\frac{1}{2}\vmu_n^T\mSigma^{-1}\vmu_n-\frac{1}{2} \vx^T\mSigma^{-1}\vx \\
+				      =                                   & \arg\max_y \ln \pi_n+\vx^T\mSigma^{-1}\vmu_n-\frac{1}{2}\vmu_n^T\mSigma^{-1}\vmu_n
+			      \end{align*}
+			      $\because x\text{ 与 }y$无关系\\
+			      $\therefore $得证.
+			\item[2.]
+			      \begin{align*}
+				      \vx^T\hat{\mSigma}^{-1}(\hat{\vmu}_2-\hat{\vmu}_1)                                                    & >\frac{1}{2} (\hat{\vmu}_2+\hat{\vmu}_1)^T\hat{\mSigma}^{-1}(\hat{\vmu}_2-\hat{\vmu}_1)-\ln (\frac{m_2}{m_1} )                                \\
+				      \vx^T\hat{\mSigma}^{-1}\hat{\vmu}_2-\vx^T\hat{\mSigma}^{-1}\hat{\vmu}_1                               & >\frac{1}{2} (\hat{\vmu}_2\hat{\mSigma}^{-1}\hat{\vmu}_2-\hat{\vmu}_1\hat{\mSigma}^{-1}\hat{\vmu}_1)-\ln (\frac{m_2}{m} )+\ln (\frac{m_1}{m}) \\
+				      \vx^T\hat{\mSigma}^{-1}\hat{\vmu}_2-\frac{1}{2} \hat{\vmu}_2\hat{\mSigma}^{-1}\hat{\vmu}_2-\ln(\pi_2) & >\vx^T\hat{\mSigma}^{-1}\hat{\vmu}_1-\frac{1}{2} \hat{\vmu}_1\hat{\mSigma}^{-1}\hat{\vmu}_1-\ln(\pi_1)                                        \\
+				      \delta_2(\vx)                                                                                         & >\delta_1(\vx)
+			      \end{align*}
+			      $\because N=2$\\
+			      $\therefore$LDA将样例预测为第2类
+		\end{enumerate}
+	\end{solution}
+
+
+	\question [20] \textbf{多分类学习}
+
+	教材3.5节介绍了“多分类学习”的多种方式, 本题针对OvO和OvR两种多分类学习方法进行分析:
+	\begin{enumerate}
+		\item 分析两种多分类方法的优劣. 思考这两种多分类推广方式是否存在难以处理的情况?
+		\item 在OvR的每一个二分类子任务中, 目标类别作为正类, 而其余所有类别作为负类. 此时, 是否需要显式考虑正负类别的不平衡带来的影响?
+	\end{enumerate}
+	\begin{solution}
+		\begin{enumerate}
+			\item OvO的优点:OvO的每一个分类器仅用到两个类的样例,故在类别很多时,训练时间比OvR少.
+			      OvO缺点:相较于OvR,其分类器个数多.
+			      OvR优点:分类器个数少,存储开销和测试时间比OvO少.
+			      OvR缺点:类别很多时,训练时间长.
+			      OvO难以处理的问题:OvO默认给每一个二分类器给出的结果拥有相同权重,如果类之间样例数目差距比较大,则其不适合处理.
+			\item 不需要考虑.OvR对每个类进行了相似的划分,故所得到的二分类任务中类别不均衡的影响会相互抵消,故不需考虑.
+		\end{enumerate}
+	\end{solution}
+
+\end{questions}
+
+
+\end{document}

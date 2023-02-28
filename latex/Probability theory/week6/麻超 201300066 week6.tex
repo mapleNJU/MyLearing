@@ -1,0 +1,279 @@
+\documentclass[12pt,a4paper,fontset=none]{ctexart}
+\usepackage{ctex}
+\usepackage{emptypage} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{graphicx}
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[marginal]{footmisc}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{pifont}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\newgeometry{left=3cm,top=2.5cm,bottom=2.5cm,right=3cm}
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+
+\lstset{
+	backgroundcolor=\color{green!10!blue!15},
+	rulesepcolor= \color{red!40!blue!100},
+	breaklines=true,
+	breakatwhitespace=false,
+	numbers=left, 
+	numberstyle= \small,
+	keywordstyle= \color{blue},
+	commentstyle=\color{gray}, 
+	frame=shadowbox
+}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\title{\textbf{概率论与数理统计第六次作业}}
+
+\author{
+\\
+\Large{麻超 \quad 201300066}
+\\[6pt]
+{ \large \textit{南京大学人工智能学院}}\\[2pt]
+}
+
+\date{\today}
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+
+\begin{document}
+\maketitle
+\setcounter{page}{1}
+\section*{4.1}
+\textbf{Solution:}Because of $P(\mu-\sigma<X\leq \mu-\sigma)=0.68$
+
+So for X~N(0,1),$P(0<X\leq 1)=0.34$
+\begin{align*}
+    P(X\geq \epsilon)=\int_{\epsilon}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{t^2}{2} }dt
+\end{align*}
+
+Let $u=t-\epsilon$
+\begin{align*}
+    P(X\geq \epsilon)=    & \int_{0}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{(u+\epsilon)^2}{2} }du
+    \\=&\int_{0}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{u^2+2u\epsilon+(\epsilon+1)^2-2\epsilon-1}{2} }du
+    \\=&e^{-\frac{(\epsilon+1)^2}{2} }\int_{0}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{u^2+2u(\epsilon-1)-1}{2} }du
+    \\\geq &e^{-\frac{(\epsilon+1)^2}{2} }\int_{0}^{1}\frac{1}{\sqrt{2\pi}}e^{-\frac{u^2+2\epsilon(u-1)-1}{2} }du\\
+    While\textbf{ }u\in   & [0,1],u-1\leq 0                                                                      \\
+    P(X\geq \epsilon)\geq & e^{-\frac{(\epsilon+1)^2}{2} }\int_{0}^{1}\frac{1}{\sqrt{2\pi}}e^{-\frac{u^2}{2} }du \\
+    \geq                  & \frac{1}{3}e^{-\frac{(\epsilon+1)^2}{3} }
+\end{align*}
+\section*{4.2}
+\textbf{Solution:}From the definition,
+\begin{align*}
+    E(X)= & \int_{-\infty}^{\infty}xf(x)dx
+    \\=&\int_{0}^{\infty}\frac{x}{\beta^\alpha \Gamma (\alpha)}x^{\alpha-1}e^{-\frac{x}{\beta} }dx
+\end{align*}
+
+let $u=\frac{x}{\beta} $,So
+\begin{align*}
+    E(X)= & \frac{\beta}{\Gamma(\alpha)}\int_{0}^{\infty}u^{\alpha}e^{-u}du
+    \\=&\frac{\beta}{\Gamma(\alpha)}\Gamma(\alpha+1)
+    \\=&\frac{\beta}{\Gamma(\alpha)}\alpha\Gamma(\alpha)
+    \\=&\alpha\beta
+\end{align*}
+
+As the same:
+\begin{align*}
+    E(X^2)= & \int_{-\infty}^{\infty}x^2f(x)dx
+    \\=&\int_{0}^{\infty}\frac{x^2}{\beta^\alpha \Gamma (\alpha)}x^{\alpha-1}e^{-\frac{x}{\beta} }dx
+    \\=&\frac{\beta^2}{\Gamma(\alpha)}\int_{0}^{\infty}u^{\alpha+1}e^{-u}du
+    \\=&\frac{\beta^2}{\Gamma(\alpha)}\Gamma(\alpha+2)
+    \\=&\frac{\beta^2}{\Gamma(\alpha)}(\alpha+1)\alpha\Gamma(\alpha)
+    \\=&\alpha(\alpha+1)\beta^2
+\end{align*}
+So
+\begin{align*}
+    D(X)=\alpha(\alpha+1)\beta^2-(\alpha\beta)^2=\alpha\beta^2
+\end{align*}
+\section*{4.3}
+\subsection*{26}
+\textbf{解:}将$N(\mu,\sigma)$转化为标准正态分布$N(0,1)$,有:
+\begin{align*}
+    P(a\leq X\leq b)=P(\frac{a-\mu}{\sigma} \leq \frac{X-\mu}{\sigma} \leq \frac{b-\mu}{\sigma} )=\varPhi (\frac{b-\mu}{\sigma} )-\varPhi(\frac{a-\mu}{\sigma})
+\end{align*}
+\subsubsection*{1}
+\begin{align*}
+    P(2<X\leq 5)= & \varPhi(\frac{5-3}{2} )-\varPhi(\frac{2-3}{2} ) \\=&\varPhi(1)-\varPhi(-0.5)\\=&\varPhi(1)+\varPhi(0.5)-1=0.8413-1+0.6915\\=&=0.5328
+\end{align*}
+\subsubsection*{2}
+\begin{align*}
+    P(-4<X\leq 10)= & \varPhi(\frac{10-3}{2} )-\varPhi(\frac{-4-3}{2} ) \\=&\varPhi(3.5)-\varPhi(-3.5)\\=&2\varPhi(3.5)-1=2\times 0.9998-1\\=&0.9996
+\end{align*}
+\subsubsection*{3}
+\begin{align*}
+    P(\vert X\vert>2)= & 1-P(-2\leq X\leq 2)=1-(\varPhi(\frac{2-3}{2} )-\varPhi(\frac{-2-3}{2} )) \\=&1-\varPhi(-0.5)+\varPhi(-2.5)\\=&\varPhi(0.5)-\varPhi(2.5)+1\\=&0.6915+1-0.9938=0.6977
+\end{align*}
+\subsubsection*{4}
+\begin{align*}
+    P(X>3)= & 1-\varPhi(\frac{3-3}{2} ) \\=&1-\varPhi(0)\\=&0.5
+\end{align*}
+\subsection*{32}
+\textbf{解:}由于$f(x),g(x)$都是概率密度函数,所以有:
+\begin{align*}
+    f(x)\geq 0,g(x)\geq 0,\int_{-\infty}^{\infty}f(x)dx=1,\int_{-\infty}^{\infty}g(x)dx=1
+\end{align*}
+
+由于$\alpha\in[0,1]$,所以$\alpha f(x)\geq 0,(1-\alpha)g(x)\geq 0$
+
+故$h(x)=\alpha f(x)+(1-\alpha)g(x)\geq 0$
+
+且$\int_{-\infty}^{\infty}h(x)=\alpha\int_{-\infty}^{\infty}f(x)dx+(1-\alpha)\int_{-\infty}^{\infty}g(x)dx=\alpha+(1-\alpha)=1$
+
+故$h(x)$同样是一个概率密度函数.
+\subsection*{34}
+X的概率密度函数为
+\begin{align*}
+    f(x)=
+    \begin{cases}
+        1,\text{} & ,x\in (0,1)     \\
+        0,\text{} & ,x \notin (0,1)
+    \end{cases}
+\end{align*}
+记X,Y的分布函数为$F_X(x),F_Y(y)$
+\subsubsection*{1}
+$Y=e^X>0.$故当$y\leq 0$时,$F_Y(y)=0,f(y)=0$.当$y>0$时,
+\begin{align*}
+    F_Y(y)=P(Y\leq y)=P(e^X\leq y)=P(X\leq \ln y)=F_X(\ln y).
+\end{align*}
+
+两边同时求导,可得
+\begin{align*}
+    f(y)=f(\ln y)\cdot \frac{1}{y}=
+    \begin{cases}
+        \frac{1}{y} \text{ } & ,1<y<e                   \\
+        0 \text{ }           & ,y\in (0,1)or(e,+\infty)
+    \end{cases}
+\end{align*}
+\subsubsection*{2}
+当$X\in(0,1)$时,$Y>0$,故当$y\leq 0$时,$F_Y(y)=0$,即$f(y)=0$.当$y>0$时:
+\begin{align*}
+    F_Y(y)= & P(Y\leq y)=P(y\geq -2\ln X)=P(X\geq e^{-\frac{y}{2} }) \\=&1-F_X(e^{-\frac{y}{2} })\\
+    f(y)=   & -f(e^{-\frac{y}{2} })(-\frac{1}{2}e^{-\frac{y}{2} } )=
+    \begin{cases}
+        \frac{1}{2} e^{-\frac{y}{2} },\text{ } & ,y>0     \\
+        0,\text{ }                             & ,y\leq 0
+    \end{cases}
+\end{align*}
+\subsection*{35}
+\subsubsection*{1}
+因为$Y=e^X$,故$Y\geq 0$,当y<0时,f(y)=0.当$y>0$时,有:
+\begin{align*}
+    F_Y(y)=P(Y\leq y)=P(0<Y\leq y)=P(-\infty<X\leq \ln y)=\varPhi(\ln y)
+\end{align*}
+
+此时:
+\begin{align*}
+    f(y)=\frac{d}{dx} \varPhi(x)\bigg|_{x=\ln y}\cdot \frac{1}{y} =\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}(\ln y)^2 }\cdot \frac{1}{y}
+\end{align*}
+
+故$Y=e^X$的概率密度为
+\begin{align*}
+    f(y)=\begin{cases}
+        \frac{1}{\sqrt{2\pi}y}e^{-\frac{1}{2}(\ln y)^2 }, & y>0     \\
+        0,                                                & y\leq 0
+    \end{cases}
+\end{align*}
+\subsubsection*{2}
+因为$Y=e^X$,故$Y\geq 1$,当y<1时,f(y)=0.当$y>0$时,有:
+\begin{align*}
+    F_Y(y)= & P(Y\leq y)=P(2X^2+1\leq y) \\=&P(-\sqrt{\frac{y-1}{2} }\leq X\leq \sqrt{\frac{y-1}{2} })\\=&\varPhi(\sqrt{\frac{y-1}{2}})-\varPhi(-\sqrt{\frac{y-1}{2}})\\=&2\varPhi(\sqrt{\frac{y-1}{2}})-1
+\end{align*}
+
+故$y>1$时:
+\begin{align*}
+    f(y)= & \frac{d}{dy} (2\varPhi(\sqrt{\frac{y-1}{2}})-1) \\=&\frac{1}{2\sqrt{\pi(y-1)}}e^{-\frac{y-1}{4} }
+\end{align*}
+
+所以$Y=2X^2+1$的概率密度为
+\begin{align*}
+    f(y)=
+    \begin{cases}
+        \frac{1}{2\sqrt{\pi(y-1)}}e^{-\frac{y-1}{4} } , & y>1     \\
+        0,                                              & y\leq 1
+    \end{cases}
+\end{align*}
+\subsubsection*{3}
+因为$Y=|X|$,故$Y\geq 0$,当y<0时,f(y)=0.当$y\geq 0$时,有:
+\begin{align*}
+    F_Y(y)= & P(0\leq Y\leq y)=P(-y\leq X\leq y) \\=&\varPhi(y)-\varPhi(-y)\\=&2\varPhi(y)-1
+\end{align*}
+
+故$y>0$时:
+\begin{align*}
+    f(y)= & \frac{d}{dy} (2\varPhi(y)-1) \\=&\frac{2}{\sqrt{2\pi}}e^{-\frac{y^2}{2} }
+\end{align*}
+
+所以$Y=|X|$的概率密度为
+\begin{align*}
+    f(y)=
+    \begin{cases}
+        \frac{2}{\sqrt{2\pi}}e^{-\frac{y^2}{2} } , & y>0     \\
+        0,                                         & y\leq 0
+    \end{cases}
+\end{align*}
+\subsection*{36}
+\subsubsection*{1}
+$Y=X^3$,故$y=g(x)=x^3$,严格单调递增,解得$x=h(y)=y^{1/3},h^{\prime} (y)=\frac{1}{3}y^{-2/3} $.
+
+所以$Y=X^3$的概率密度为
+\begin{align*}
+    f_Y(y)=\frac{1}{3}y^{-2/3}f(y^{1/3}),y\neq 0
+\end{align*}
+\subsubsection*{2}
+$Y=X^2$,故$y=g(x)=x^2$,严格单调递增,解得$x=h(y)=y^{1/2},h^{\prime} (y)=\frac{1}{2}y^{-1/2} $.
+
+所以$Y=X^2$的概率密度为
+\begin{align*}
+    f_Y(y)=
+    \begin{cases}
+        \frac{1}{2}y^{-1/2}e^{-\sqrt{y}}, & y>0     \\
+        0,                                & y\leq 0
+    \end{cases}
+\end{align*}
+\subsection*{37}
+当$X\in (0,\pi),Y=\sin X\in(0,1)$.所以当y<0或y>1时$f_Y(y)=0$.当$0\leq y\leq 1$时:
+\begin{align*}
+    F_Y(y)= & P(0\leq Y\leq y)=P(0\leq \sin X\leq y)        \\=&P((0\leq X\leq \arcsin y)\cup (\pi-\arcsin y\leq X\leq \pi))\\=&
+    P(0\leq X\leq \arcsin y)+P(\pi-\arcsin y\leq X\leq \pi) \\=&\int_{0}^{\arcsin y}\frac{2x}{\pi^2} dx+\int_{\pi-\arcsin y}^{\pi}\frac{2x}{\pi^2} dx\\=&\frac{1}{\pi^2} (\arcsin y)^2+1-\frac{1}{\pi^2} (\pi-\arcsin y)^2\\=&\frac{2}{\pi} \arcsin y
+\end{align*}
+
+所以当$0<y<1$时,
+\begin{align*}
+    f_Y(y)=\frac{d}{dy} F_Y(y)=\frac{2}{\pi\sqrt{1-y^2}}
+\end{align*}
+
+所以所求的概率密度为
+\begin{align*}
+    f_Y(y)=
+    \begin{cases}
+        \frac{2}{\pi\sqrt{1-y^2}}, & 0<y<1                            \\
+        0,                         & y\leq 0\text{ }or\text{ }y\geq 1
+    \end{cases}
+\end{align*}
+\section*{4.4}
+\textbf{Solution:}$F(x,y)=P(X\leq x,Y\leq y).$
+
+Let $A=\{X\leq x\},B=\{Y\leq y\}$
+
+And let $F_X(x)=P(X\leq x)=\lim_{y \to \infty}  F(x,y),F_Y(y)=P(Y\leq y)=\lim_{x \to \infty} F(x,y) $
+
+So \begin{align*}
+    P(X>x,Y>y)= & P(\overline{A}\overline{B})=1-P(A)-P(B)+P(AB) \\=&1-P(X>x)-P(Y>y)+P(X\leq x,Y\leq y)\\=&1-F_X(x)-F_Y(y)+F(x,y)
+\end{align*}
+\end{document}

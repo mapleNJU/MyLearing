@@ -1,0 +1,95 @@
+\documentclass[12pt,a4paper]{ctexart}
+\usepackage{ctex}
+\usepackage{emptypage} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{graphicx}
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[marginal]{footmisc}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\newgeometry{left=3cm,top=2.5cm,bottom=2.5cm,right=3cm}
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+
+\lstset{
+	backgroundcolor=\color{green!10!blue!15},
+	rulesepcolor= \color{red!40!blue!100},
+	breaklines=true,
+	breakatwhitespace=false,
+	numbers=left, 
+	numberstyle= \small,
+	keywordstyle= \color{blue},
+	commentstyle=\color{gray}, 
+	frame=shadowbox
+}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\title{\textbf{标题}}
+
+\author{
+\\
+\Large{麻超 \quad 201300066}
+\\[6pt]
+{ \large \textit{南京大学人工智能学院}}\\[2pt]\large \textit{maple@smail.nju.edu.cn}
+}
+
+\date{}
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+
+\begin{document}
+\maketitle
+\setcounter{page}{1}
+\textbf{摘要} \quad {摘要} \\
+
+\textbf{关键词}\quad {关键词}
+\\[60pt]
+\section{引言}
+正文，引用1\supercite{1}，表格
+\begin{table}[ht]
+    \centering
+    \caption{表头}\label{}
+    \tabcolsep 15pt
+    \begin{tabular}{c|c|c}
+        \hline
+        第一列 & 第二列 \\
+        \hline
+        内容1  & 内容2
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\section{章节1}
+\subsection{分章节1}
+图片
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=4.5cm]{图片路径，同一文件夹下}
+    \caption{图片名称}
+\end{figure}
+\section{总结}
+正文
+
+\newpage
+\small
+
+\begin{thebibliography}{99}
+    \setlength{\parskip}{0pt}
+
+    \bibitem{1} 引用路径1
+
+
+\end{thebibliography}
+\end{document}

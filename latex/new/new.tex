@@ -1,0 +1,79 @@
+% !Mode:: "TeX:UTF-8"
+\documentclass[a4paper,11pt,onecolumn,twoside]{article}
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+
+% Please change the following fonts if they are not available.
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+
+\addtolength{\topmargin}{-54pt}
+%\setlength{\oddsidemargin}{-0.9cm}
+%\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{17.00cm}
+\setlength{\textheight}{24.50cm}
+
+\renewcommand{\baselinestretch}{1.1}
+%\parindent 22pt
+%%%%%%%%%%%%%这一条线以上的东西都不要做修改，遇到问题私戳负责人
+\title{\textbf{深度学习hw1}}
+\author{
+尹嘉骏 201300063\\[2pt]%%“\\”表示换行，2pt表示行间距
+
+}
+%begin 不要填，不需要
+\date{}
+%end
+%begin以下部分只有两个地方需要修改——作者和论文类别，其他都不能动
+
+\pagestyle{fancy}
+
+\setlist{nolistsep}
+\captionsetup{font=small}
+
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+%end
+
+%%%%%%%%%%这条线以下，正文正式开始
+\begin{document}
+%begin 不用管，不要改
+\maketitle
+%end
+%%%%%%%%%%%%%%%%%%%%这条线以下就是我们可以复制粘贴的内容
+\section*{第一问}
+$W^{[2]}$与$b^{[2]}$的维度分别为$K\times D_{a},K\times 1$
+
+最后一层输出结果的维度为$K\times m$
+\section*{第二问}
+$\hat{y}_k=\frac{exp(\textbf{z}^{[2]}_k)}{Z}$
+
+$\frac{\partial \hat{y}_k}{\partial \textbf{z}^{[2]}_k}=\frac{Z\cdot exp(\textbf{z}^{[2]}_k)-[exp(\textbf{z}^{[2]}_k)]^2}{Z^2}=\hat{y}_k(1-\hat{y}_k)$
+
+\section*{第三问}
+当$i\not=k$时，有
+
+$\frac{\partial \hat{y}_k}{\partial \textbf{z}^{[2]}_i}=\frac{0\cdot Z-exp(\textbf{z}^{[2]}_k)\cdot exp(\textbf{z}^{[2]}_i)}{Z^2}=-\hat{y}_k\hat{y}_i$
+
+\section*{第四问}
+$L=-\sum_{i=1}^{K}y_ilog(\hat{y_i})=-log(\hat{y}_k)$
+
+而$\hat{y}_k=\frac{exp(\textbf{z}^{[2]}_k)}{Z}$
+
+故$L=-log exp(\textbf{z}^{[2]}_k)+logZ=-\textbf{z}^{[2]}_k+logZ=-\textbf{z}^{[2]}_k+log(\sum_{j=1}^{K}exp(\textbf{z}^{[2]}_j))$
+
+当i=k时，有$\frac{\partial L}{\partial \textbf{z}^{[2]}_i}=-1+\frac{exp(\textbf{z}^{[2]}_k)}{\sum_{j=1}^{K}exp(\textbf{z}^{[2]}_j)}=-1+\hat{y}_k$
+
+当$i\not=k$时，有$\frac{\partial L}{\partial \textbf{z}^{[2]}_i}=0+\frac{exp(\textbf{z}^{[2]}_i)}{\sum_{j=1}^{K}exp(\textbf{z}^{[2]}_j)}=-1+\hat{y}_k$
+
+
+\end{document}

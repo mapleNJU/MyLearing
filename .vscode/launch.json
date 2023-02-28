@@ -1,0 +1,46 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    
+        {
+            "type": "java",
+            "name": "Launch App",
+            "request": "launch",
+            "mainClass": "first.src.App",
+            "projectName": "Code_72d74406"
+        },
+        {
+            "name": "Single File Compile & Run",
+            "type": "cppdbg",
+            "request": "launch",
+            "targetArchitecture": "x86",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "args": [],
+            "miDebuggerPath": "gdb",
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "externalConsole": true,
+            "preLaunchTask": "g++"
+        },
+        {
+            "name": "Multiple Files Compile & Run",
+            "type": "cppdbg",
+            "request": "launch",
+            "targetArchitecture": "x86",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "args": [],
+            "miDebuggerPath": "gdb",
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "externalConsole": true,
+            "preLaunchTask": "make"
+        },
+        {
+            "name": "Python",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        }
+    ]
+}

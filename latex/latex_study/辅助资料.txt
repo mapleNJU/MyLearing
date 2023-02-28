@@ -1,0 +1,10 @@
+一个教程：
+https://www.luogu.com.cn/blog/IowaBattleship/latex-ru-men?tdsourcetag=s_pcqq_aiomsg
+两个在线编辑表格的网站：
+https://tableconvert.com/
+https://www.tablesgenerator.com/
+输入数学公式：
+https://mathpix.com/
+https://www.latexlive.com/
+此处下载Adobe Acrobat辅助pdf文件的编辑：
+https://itsc.nju.edu.cn/zbrj/list.htm

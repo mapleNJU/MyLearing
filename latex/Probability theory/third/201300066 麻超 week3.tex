@@ -1,0 +1,187 @@
+\documentclass[12pt,a4paper]{ctexart}
+\usepackage{ctex}
+\usepackage{emptypage} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{graphicx}
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[marginal]{footmisc}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{pifont}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\newgeometry{left=3cm,top=2.5cm,bottom=2.5cm,right=3cm}
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+
+\lstset{
+	backgroundcolor=\color{green!10!blue!15},
+	rulesepcolor= \color{red!40!blue!100},
+	breaklines=true,
+	breakatwhitespace=false,
+	numbers=left, 
+	numberstyle= \small,
+	keywordstyle= \color{blue},
+	commentstyle=\color{gray}, 
+	frame=shadowbox
+}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\title{\textbf{概率论与数理统计第三次作业}}
+
+\author{
+\\
+\Large{麻超 \quad 201300066}
+\\[6pt]
+{ \large \textit{南京大学人工智能学院}}\\[2pt]
+}
+
+\date{\today}
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+
+\begin{document}
+\maketitle
+\setcounter{page}{1}
+
+\section*{2.1}
+两个事件独立是指它们的发生不会相互影响，即A发生与否与B发生与否没有关系，不代表不可以同时发生，其满足公式$P(AB)=P(A)P(B)$.但是两个事件互不相容是指其不能够同时发生,即发生了A就不会发生B,发生了B就不会发生A,满足$P(AB)=0$.
+\section*{2.2}
+事件ABC相互独立,则有$P(ABC)=P(A)P(B)P(C),P(AB)=P(A)P(B),P(BC)=P(B)P(C),P(AC)=P(A)P(C)$.
+
+由容斥原理,$P(B\cup C)=P(B)+P(C)-P(BC)=P(B)+P(C)-P(B)P(C)$
+
+$\therefore P(A(B\cup C))=P(AB\cup AC)=P(AB)+P(BC)-P(ABC)$
+
+$P(A)P(B\cup C)=P(A)P(B)+P(A)P(C)-P(A)P(B)P(C)=P(AB)+P(BC)-P(ABC)$
+
+$\therefore P(A(B\cup C))=P(A)P(B\cup C)$
+
+\section*{2.3.22}
+\subsection*{1}
+设第一次及格为事件A,第二次及格为事件B,能取得某种资格为事件S,由题:
+
+$P(A)=p,P(\overline{A})=1-p,P(B|A)=p,P(B|\overline{A})=p/2$
+
+则$P(S)=P(A)+P(\overline{A})P(B|\overline{A})=p+(1-p)p/2=(-p^2+3p)/2$
+\subsection*{2}
+$P(A|B)=\frac{P(AB)}{P(B)}=\frac{P(B|A)P(A)}{P(B|A)P(A)+P(B|\overline{A})P(\overline{A})}=\frac{p^2}{p^2+\frac{p}{2}(1-p)}=\frac{2p}{p+1}$
+
+\section*{2.3.27}
+\subsection*{1}
+$P(AB|A)=P(AB)/P(A),P(AB|A\cup B)=P(AB)/P(A\cup B)$
+
+$\because A\subseteq (A\cup B)$
+
+$\therefore P(A)\leq P(A\cup B)$
+
+$\therefore P(AB|A)\geq P(AB|A\cup B)$
+\subsection*{2}
+$\because P(A|B)=1$
+
+$\therefore P(AB)=P(B),$即$B\subseteq A$
+
+$\therefore \overline{A}\subseteq \overline{B}$
+
+$\therefore P(\overline{A}\overline{B})=P(\overline{A})$
+
+$\therefore P(\overline{B}|\overline{A})=P(\overline{A}\overline{B})/P(\overline{A})=1$
+\subsection*{3}
+$P(AC)\geq P(BC) (1),P(A\overline{C})\geq P(B\overline{C})(2)$
+
+设全集为U,则对(2)式有$P(A(U-C))\geq P(B(U-C))$
+
+$\therefore P(A)-P(AC)\geq P(B)-P(BC)$
+
+由(1)式,$P(A)-P(B)\geq P(AC)-P(BC)$
+
+$\therefore P(A)\geq P(B)$
+\section*{2.3.28}
+设第一种花籽发芽为事件A,第二种花籽发芽为事件B
+\subsection*{1}
+$P1=P(A)P(B)=0.72$
+\subsection*{2}
+$P2=1-P(\overline{A})P(\overline{B})=1-0.02=0.98$
+\subsection*{3}
+$P3=P(A)P(\overline{B})+P(\overline{A})P(B)=0.18+0.08=0.26$
+\section*{2.3.30}
+\subsection*{1}
+\subsubsection*{i}
+A为掷骰子掷到奇数,B为掷骰子掷到大于3的数,则有$P(A|B)=1/3,P(A)=1/2$
+\subsubsection*{ii}
+A为掷骰子掷到奇数,B为掷骰子掷到大于0的数,则有$P(A|B)=P(A)=1/2$
+\subsubsection*{iii}
+A为掷骰子掷到奇数,B为掷骰子掷到小于4的数,则有$P(A|B)=2/3,P(A)=1/2$
+\subsection*{2}
+由于事件ABC相互独立,故$P(ABC)=P(A)P(B)P(C),P(AB)=P(A)P(B),P(BC)=P(B)P(C),P(AC)=P(A)P(C)$.
+
+\subsubsection*{i}
+$P(C(AB))=P(CAB)=P(A)P(B)P(C)=P(AB)P(C)$,故C与AB相互独立.
+\subsubsection*{ii}
+$P(C(A\cup B))=P(AC\cup BC)=P(AC)+P(BC)-P(ABC)=P(A)P(C)+P(B)P(C)-P(A)P(B)P(C)=P(C)[P(A)+P(B)-P(AB)]=P(C)P(A\cup B)$,故C与$A\cup B$相互独立.
+\subsection*{3}
+$AB\subset A$,所以若P(A)=0,则$0\leq P(AB)\leq P(A)$
+
+由定义,$P(AB)=0=P(B)\times 0=P(A)P(B)$
+
+所以A,B相互独立.
+\subsection*{4}
+1.若A,B相互独立,则A,$\overline{B}$也相互独立.
+
+所以$P(A|B)=P(A),P(A|\overline{B})=P(A),P(A|B)=P(A|\overline{B})$
+
+2.设$P(A|B)=P(A|\overline{B})$,则$\frac{P(AB)}{P(B)}=\frac{P(A\overline{B})}{P(\overline{B})}$
+
+$\therefore \frac{P(AB)}{P(B)}=\frac{P(AB)+P(A\overline{B})}{P(B)+P(\overline{B})}=1$
+
+$\therefore P(AB)=P(A)P(B)$,即A与B相互独立.
+\section*{2.3.31}
+\subsection*{1}
+必然错.若互不相容,则$P(AB)=0\neq P(A)P(B)$,不满足相互独立.
+\subsection*{2}
+必然错.理由同上.
+\subsection*{3}
+必然错.此时$P(A\cup B)=P(A)+P(B)-P(AB)$,故$P(AB)$最小为0.2,不可能为0,不满足互不相容.
+\subsection*{4}
+可能对.相互独立与其概率无关系.
+\section*{2.3.32}
+设第i个人报导为假阳性为事件$A_i$,于是$P(A_i)=0.005,P(\overline{A_i})=0.095$
+
+$\therefore P=1-P(\prod _{i=1}^{140} P(A_i))=1-0.095^{140}$
+\section*{2.3.33}
+$P(A)=P(B)=P(C)=1/2$.
+
+P(AB),P(AC),P(BC),P(ABC)均表示取得1号球,故$P(AB)=P(AC)=P(BC)=P(ABC)=1/4$
+
+即满足$P(AB)=P(A)P(B),P(BC)=P(B)P(C),P(AC)=P(A)P(C)$,但$P(ABC)\neq P(A)P(B)P(C)$
+\section*{2.3.37}
+\subsection*{1}
+$P1=1-4/7\times 7/9=5/9$
+\subsection*{2}
+$P2=3/7\times 4/9+2/7\times 2/9=16/63$
+\subsection*{3}
+$P=p2/(p1+p2)=16/35$
+\section*{2.3.39}
+$P(B|A_1)=0.98^3,P(B|A_2)=0.9^3,P(B|A_1)=0.1^3$
+
+又$P(A_1)=0.8,P(A_2)=0.15,P(A_3)=0.05$.
+
+由贝叶斯公式得
+
+$P(A_1|B)=\frac{P(B|A_1)P(A_1)}{P(B|A_1)P(A_1)+P(B|A_2)P(A_2)+P(B|A_3)P(A_3)}=\frac{0.98^3\times 0.8}{0.98^3\times 0.8+0.9^3\times 0.15+0.1^3\times 0.05}=0.873$
+
+同理,$P(A_2|B)=\frac{0.9^3\times 0.15}{0.98^3\times 0.8+0.9^3\times 0.15+0.1^3\times 0.05}=0.0.127$
+
+$P(A_3|B)=\frac{0.1^3\times 0.05}{0.98^3\times 0.8+0.9^3\times 0.15+0.1^3\times 0.05}=0.0001$.
+\end{document}

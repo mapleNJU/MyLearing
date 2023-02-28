@@ -1,0 +1,85 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{ctex}
+\usepackage{emptypage} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{graphicx}
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[marginal]{footmisc}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\newgeometry{left=3cm,top=2.5cm,bottom=2.5cm,right=3cm}
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+
+\lstset{
+	backgroundcolor=\color{green!10!blue!15},%代码块背景色
+	rulesepcolor= \color{red!40!blue!100}, %代码块边框颜色
+	breaklines=true,  %代码过长则换行
+	breakatwhitespace=false,
+	numbers=left, %行号在左侧显示
+	numberstyle= \small,%行号字体
+	keywordstyle= \color{blue},%关键字颜色
+	commentstyle=\color{gray}, %注释颜色
+	frame=shadowbox%用方框框住代码块
+}
+
+\renewcommand{\baselinestretch}{1.5}%可加可不加，控制行间距
+
+\title{\textbf{这是标题\\用于分行}}%标题
+
+\author{
+\\
+\Large{麻超 \quad 201300066}
+\\[6pt]
+{ \large \textit{南京大学人工智能学院}}\\[2pt]
+}
+
+\date{}
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+
+\begin{document}
+\maketitle
+\setcounter{page}{1}
+%\textbf{摘要} \quad {摘要内容} \\
+
+%\textbf{关键词}\quad {关键词}
+%\\[60pt]%写论文用这三行
+
+\section*{引言}
+
+\section{1}
+这是正文\supercite{1}
+
+%\begin{figure}[H]%图片%是注释
+%\centering
+%\includegraphics[width=0.8\linewidth]{图片位置}
+%\caption{图片备注}
+%\end{figure}
+\section{2}
+\subsection{1}%小的段落
+
+\subsection{2}
+
+\section{小结}
+
+
+%\small
+
+%\begin{thebibliography}{99}%开始引用
+%\setlength{\parskip}{0pt}
+
+%\bibitem{1} 引用序列
+%\end{thebibliography}%引用结束
+
+\end{document}

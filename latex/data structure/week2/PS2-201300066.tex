@@ -1,0 +1,218 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{ctex}
+\usepackage{emptypage} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{graphicx}
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{enumerate}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[marginal]{footmisc}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\newgeometry{left=3cm,top=2.5cm,bottom=2.5cm,right=3cm}
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+
+\lstset{
+	backgroundcolor=\color{green!10!blue!15},%代码块背景色
+	rulesepcolor= \color{red!40!blue!100}, %代码块边框颜色
+	breaklines=true,  %代码过长则换行
+	breakatwhitespace=false,
+	numbers=left, %行号在左侧显示
+	numberstyle= \small,%行号字体
+	keywordstyle= \color{blue},%关键字颜色
+	commentstyle=\color{gray}, %注释颜色
+	frame=shadowbox%用方框框住代码块
+}
+
+\renewcommand{\baselinestretch}{1.5}%可加可不加，控制行间距
+
+\title{\textbf{Ps2-201300066}}%标题
+
+\author{
+\\
+\Large{麻超 \quad 201300066}
+\\[6pt]
+{ \large \textit{南京大学人工智能学院}}\\[2pt]
+}
+
+\date{}
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+
+\begin{document}
+\maketitle
+\setcounter{page}{1}
+
+\section{Problem 1}
+\subsection{a}
+解：在一个单向链表中，一个节点只能指向下一个节点，因此考虑将该节点指向上一个节点。由于需要不占用额外空间，故考虑在该链表内部操作。\\
+1.Rerverse(Node,head):
+\par\setlength\parindent{2em}Node pre=NULL
+\par\setlength\parindent{2em}While(head ! =NULL):
+\par\setlength\parindent{4em}Node next = head.next()
+\par\setlength\parindent{4em}pre = head.next()
+\par\setlength\parindent{4em}pre = head
+\par\setlength\parindent{4em}head = next
+\par\setlength\parindent{2em}return pre\\
+最后返回的pre恰好为该链表的最后一个节点，且每一个节点的next节点都是原链表中的上一个节点，完成了反转，且没有占用其他空间，时间复杂度为$\Theta(n)$-time.\\
+\subsection{b}
+$\because x.np=x.next\oplus x.prev\\
+    \therefore x.next=x.np\oplus x.prev,x.prev=x.np\oplus x.next$\\
+故而只需要知道该节点下一个节点的位置就可以求出上一个节点的位置，反之亦然。\\
+由于每次需要两个节点才能够访问下一个节点或上一个节点，故头节点应使用两个节点来表示。\\
+因此可以考虑用头节点和尾节点来作为这两个节点，即令\\$head.np\oplus tail=head.next,tail.np\oplus head=tail.prev$\\
+    从当前节点前往下一个节点的语句如下：\\
+    prev = x\\
+    x = next\\
+    next = prev$\oplus$x.np\\
+    从当前节点前往前一个节点的语句如下：\\
+    nextp = x\\
+    x = prev\\
+    prev = x.np$\oplus$ next\\
+    以下为需要的伪代码：\\
+    1.Insert(Node,int i,p):
+    \par\setlength\parindent{2em}x=head,prev=tail
+    \par\setlength\parindent{2em}next=head.np$\oplus prev$
+    \par\setlength\parindent{2em}for k in [1,i]:
+    \par\setlength\parindent{4em}prev = x
+    \par\setlength\parindent{4em}x = next
+    \par\setlength\parindent{4em}next = prev$\oplus$x.np
+    \par\setlength\parindent{2em}p=x.np$\oplus$prev
+    \par\setlength\parindent{2em}prev=x
+    \par\setlength\parindent{2em}next=p.np$\oplus$x
+    \par\setlength\parindent{2em}x=p
+    2.Delete(Node,p):
+    \par\setlength\parindent{2em}x=head,prev=tail
+    \par\setlength\parindent{2em}next=head.np$\oplus prev$
+    \par\setlength\parindent{2em}while next !=p:
+    \par\setlength\parindent{4em}prev = x
+    \par\setlength\parindent{4em}x = next
+    \par\setlength\parindent{4em}next = prev$\oplus$x.np
+    \par\setlength\parindent{2em}next = p.np$\oplus$x
+    \par\setlength\parindent{2em}next = x.np$\oplus$prev
+    \par\setlength\parindent{2em}free(p)
+
+    \section{Problem 2}
+    解：首先要有一个stack结构，命名为S，作为基本。其pop(),push(x)操作同一般的stack，唯一需要考虑的即为Max()方法。\\
+    可以考虑对该stack进行遍历，找寻最大值。\\
+    令S.top=k，即为该stack的最顶部元素的序号\\
+    1.Push(S,x):
+    \par\setlength\parindent{2em}S.top=S.top+1
+    \par\setlength\parindent{2em}S[top+1]=x
+    2.Pop(S):
+    \par\setlength\parindent{2em}if S.top=0:
+    \par\setlength\parindent{4em}return error
+    \par\setlength\parindent{2em}else:
+    \par\setlength\parindent{4em}S.top=S.top-1
+    \par\setlength\parindent{4em}return S[S.top+1]\\
+    3.Max(S):
+    \par\setlength\parindent{2em}if S.top=0:
+    \par\setlength\parindent{4em}return error
+    \par\setlength\parindent{2em}else:
+    \par\setlength\parindent{4em}maxnum=S[0]
+    \par\setlength\parindent{4em}for i in [0,k]:
+    \par\setlength\parindent{4em}if S[i]>maxnum:
+    \par\setlength\parindent{6em}maxnum=S[i]
+    \par\setlength\parindent{4em}return maxnum\\
+    但是该方法下push及pop操作时间复杂度都为$\Theta(1)$,该max操作的时间复杂度因为$\Theta(n)$-time.空间复杂度为1*O(1).
+    \section{Problem 3}
+    将中缀表达式转化为后缀表达式时，可以发现，数字的排列顺序是正向的，但运算符号为逆向的，因此考虑用队列储存数字，用栈储存运算符号。方法大致如下：\\
+    1.遇见数字时可直接输出（或储存于队列中），并读取下一个字符\\
+    2.如果读到括号,则跳过,到下一个字符\\
+    4.如果读到的是运算符,则要将此运算符入栈\\
+    (1) 若栈空,则直接入栈;\\
+    (2) 若栈不空则要判断栈顶运算符的优先级:\\
+    <1>若栈顶运算符的优先级低于要入栈的运算符,直接入栈\\
+    <2>若栈顶运算符的优先级高于要入栈的运算符,要将栈顶位置的高优先级的运算符出栈,出栈的运算符输出到结果字符串的末尾.,直到栈顶运算符优先级低于要入栈的运算符为止.\\
+    伪代码如下：\\
+    在运算符优先级方面令！> $\times$ > +\\
+    for i=0 to n:
+    \par\setlength\parindent{2em}if A[i] belong to [0,9],print A[i]
+    \par\setlength\parindent{2em}else:
+    \par\setlength\parindent{4em}if S is empty:
+    \par\setlength\parindent{6em}S.push(A[i])
+    \par\setlength\parindent{4em}else:
+    \par\setlength\parindent{6em}while S.top()>A[i]:
+    \par\setlength\parindent{8em}print(S.top())
+    \par\setlength\parindent{4em}S.pop()\\
+    while S is not empty :
+    \par\setlength\parindent{2em}print(S.top())
+    \par\setlength\parindent{4em}S.pop()\\
+    时间复杂度上，由于原算式的每个字符只进行入栈和出栈操作，故时间复杂度为O(n).
+    \section{Problem 4}
+    \subsection{a}$T(n)=5\times T(n/2)+O(n)\\
+=5\times (5\times (n/4)+O(n/2))+O(n)\\
+=125T(n/8)+[25O(n/4)+4O(n/2)+O(n)]\\
+n=2^k,[25O(n/4)+5O(n/2)+O(n)]=O(n*lgn)\\
+2^kT(n/2^k)=cn\\
+故T(n)=O(n*lg_n+cn)=O(n*lgn)$\\
+    时间复杂度为O(n*lgn)
+    \subsection{b}$T(n)=2*T(n-1)+O(1)=4*T(n-2)+2*O(1)\\
+=$……$\\
+=2^nT(0)+n*O(1)\\
+=O(2^n)$\\
+    时间复杂度为$O(2^n)$
+    \subsection{c}
+$T(n)=9\times T(n/3)+O(n^2)\\
+=9\times (9\times (n/9)+O(n^2/4))+O(n^2)\\
+=729T(n/27)+[81O(n^3/8)+9O(n^2)/4+O(n^2)]\\
+n=3^k,[81O(n^2/16)+9O(n^2/4)+O(n^2)]=O(n^2*lgn)\\
+故T(n)=O(n^2lgn)$
+    故a)算法的时间复杂度最小，选用a)算法。
+    \section{Problem 5}
+    需要在O($nlg_n$)时间内完成对数组中重复元素的筛查，主要的方法应是先排序再删除其中重复的元素。
+    \par
+    伪代码如下：
+    \par\setlength\parindent{2em}Select(A[],n):
+    \par\setlength\parindent{2em}sort(A,n)
+    \par\setlength\parindent{2em}int result[]
+    \par\setlength\parindent{2em}for i=0 to n-1:
+    \par\setlength\parindent{4em}insert(result[],A[i])
+    \par\setlength\parindent{4em}while A[i]==A[i+1]:i++
+    \par\setlength\parindent{2em}return result
+    时间复杂度分析:对数组的筛查等于对数组的排序加上对数组的线性遍历，故为O(nlgn)+O(n)=O(nlgn)\\
+    证明：当该数组内每个元素都不相同时，该算法没有遗漏掉任何一个元素，是正确的。\\
+    当该数组内有n个元素相同时，在while循环内，一共循环了n-1次，恰好将原重复的n个元素略去了n-1个，保留了一个。因此，无论有多少重复元素，该算法总是正确的。
+    \section{Problem 6}
+    <2,3,8,6,1>
+    \subsection{a}(1,5),(2,5),(3,5),(4,5),(3,4)
+    \subsection{b}插入排序的运行时间是反转次数的常数倍.对于每一个j，若有一个符合上述条件的i,则需要执行一次反转操作，反转数+1，一直需要对j从1到n执行while循环。所以插入排序所需要的时间数为$\sum_{i=1}^n f(i)$,为故其运行时间是反转次数的常数倍。
+\subsection{c}
+在归并排序里，逆序对的总数=左边数组中的逆序对的数量+右边数组中逆序对的数量+左右结合成新的顺序数组时中出现的逆序对的数量.
+\par
+Megersort(A,1,n):
+\par\setlength\parindent{2em}l=1,r=n
+\par\setlength\parindent{2em}mid=(l+r)/2
+\par\setlength\parindent{2em}count=Megersort(l,mid)+Megersort(mid+1,r)
+\par\setlength\parindent{2em}L=l,R=mid+1,ans=l,p=[],q=[]
+\par\setlength\parindent{2em}for i=l to mid:
+\par\setlength\parindent{4em}p.insert(A[i])
+\par\setlength\parindent{2em}for i=mid+1 to r:
+\par\setlength\parindent{4em}q.insert(A[i])
+\par\setlength\parindent{2em}while L<=mid and R<=r:
+\par\setlength\parindent{4em}if p[L]<=q[R]:
+\par\setlength\parindent{6em}A[ans++]=p[L++]
+\par\setlength\parindent{6em}count=R-mid-1+count
+\par\setlength\parindent{4em}else
+\par\setlength\parindent{6em}A[ans++]=q[R++]
+\par\setlength\parindent{2em}while(L<=mid)
+\par\setlength\parindent{4em}A[ans++]=p[L++]
+\par\setlength\parindent{4em}count+=r-mid
+\par\setlength\parindent{2em}while(R<=r)
+\par\setlength\parindent{4em}A[ans++]=q[R++]
+\par\setlength\parindent{2em}return count
+
+
+\end{document}

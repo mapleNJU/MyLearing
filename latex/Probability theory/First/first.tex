@@ -1,0 +1,133 @@
+\documentclass[12pt,a4paper]{ctexart}
+\usepackage{ctex}
+\usepackage{emptypage} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{graphicx}
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[marginal]{footmisc}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\newgeometry{left=3cm,top=2.5cm,bottom=2.5cm,right=3cm}
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+
+\lstset{
+	backgroundcolor=\color{green!10!blue!15},
+	rulesepcolor= \color{red!40!blue!100},
+	breaklines=true,
+	breakatwhitespace=false,
+	numbers=left, 
+	numberstyle= \small,
+	keywordstyle= \color{blue},
+	commentstyle=\color{gray}, 
+	frame=shadowbox
+}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\title{\textbf{概率论与数理统计第一次作业}}
+
+\author{
+\\
+\Large{麻超 \quad 201300066}
+\\[6pt]
+{ \large \textit{南京大学人工智能学院}}\\[2pt]
+}
+
+\date{}
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+
+\begin{document}
+\maketitle
+\setcounter{page}{1}
+
+\section{}
+解：频率是随机事件有限次实验下所得到的结果，概率是实现次数接近无限大时所得到的频率。频率是一个可变值，概率是一个固定的准确值。
+\par
+在一次随机实验之前无法确定该次实验得到什么结果，这被称为随机现象的偶然性，但是经过大量实验，结果的分布往往能够体现一定的规律。以上遍体现了随机现象中的二重性。
+\par
+若事件A和B不能同时发生，则称它们为互不相容事件。而所有不属于事件A的基本事件的集合称为A的对立事件。对立事件一定是互不相容事件，但反之则不。在集合中，A的对立事件表示为A相对于全集的补集，该补集的任意一个子集都称为A的对立事件。
+\section{}
+\textbf{解： }
+\subsection{}
+$(A-AB)\cup B=A\cup B$
+
+$\overline{(\overline{A}\cup B )} =A\cap \overline{B}=A-B$
+\subsection{}
+$(A\cup B)-C=(A\cup B)\cap \overline{C}=A\cup B$
+\section{}
+\begin{itemize}
+	\item $\overline{A_1}\cap(\bigcap_{k=2}^n A_k)$
+	\item $1-\bigcap_{k=1}^n A_k$
+	\item $\bigcup_{k=1}^n (\overline{A_k}\cap \bigcap_{j\neq i}A_j)$
+	\item $\overline{\bigcup_{k=1}^n (\overline{A_k}\cap \bigcap_{j\neq i}A_j)\cup (\bigcap_{k=1}^n A_k})$
+	\item $\bigcup_{i=1,j>i}^n(\bigcap_{k\neq i,k\neq j}^n A_k )$
+	\item $\bigcap_{k=1}^n A_k$
+\end{itemize}
+
+\section{}
+\subsection{}
+\textbf{解： }
+$\overline{\bigcup_{i=1}^n A_i}=
+	\overline{A_1}\cap \overline{\bigcup_{i=2}^n A_i}\\
+	=\overline{A_1}\cap \overline{A_2}\cap \overline{\bigcup_{i=3}^n A_i}\\
+	=…\\
+	=\overline{A_1}\cap \overline{A_2}\cap \overline{A_3}\cap……\cap\overline\\{A_n}\\
+	=\bigcap_{i=1}^n \overline{A_i}$
+\subsection{}
+\textbf{解： }
+$\overline{\bigcap_{i=1}^n A_i}=
+	\overline{A_1}\cup \overline{\bigcap_{i=2}^n A_i}\\
+	=\overline{A_1}\cup \overline{A_2}\cup \overline{\bigcap_{i=3}^n A_i}\\
+	=…\\
+	=\overline{A_1}\cup \overline{A_2}\cup \overline{A_3}\cup……\cup\overline\\{A_n}\\
+	=\bigcup_{i=1}^n \overline{A_i}$
+\section{}
+\textbf{解： }
+\begin{itemize}
+	\item $P(\overline{A}B)=2/3\times 1/5=2/15$
+	\item $P(\overline{A}\cup\overline{B})=P(\overline{A\cap B})=1-P(AB)=19/20$
+	\item $P(A\cup B\cup C)=P(A)+P(B)+P(C)-P(AB)-P(AC)-P(BC)+P(ABC)\\=1/3+1/5+1/6-1/20-1/20-1/60+1/100$
+	\item $P(\overline{A}\overline{B}\overline{C})=2/3\times 4/5\times 5/6=4/9$
+	\item $P(\overline{A}\overline{B}C)=2/3\times 4/5\times 1/6=4/45$
+	\item $P(\overline{A}\overline{B}\cup C)=P(\overline{A}\overline{B})+P(C)-P(\overline{A}\overline{B}C)=2/3\times 4/5+1/6-4/45=11/18$
+\end{itemize}
+\section{}
+\textbf{解： }$\because P(AB)=P(A)+P(B)-P(A\cup B)$
+
+$\therefore $当$A\subseteq B$时，P(AB)最大，为0.6.
+
+当$A\cup B$最大，即$P(A\cup B)=1$时，P(AB)最小，为0.5.
+\section{}
+\textbf{解： }$\because P(AB)=P(A)+P(B)-P(A\cup B)
+	P(\overline{A}\overline{B})=P(\overline{A\cup B})=1-P(A\cup B)\\
+	\therefore 1-P(A\cup B)=P(A)+P(B)-P(A\cup B)\\
+	\because P(B)=1/4\\
+	\therefore P(A)=3/4$
+\section{}
+\textbf{解： }$\because P(B-A)=P(A\cup B)-P(A)\\
+	P(\overline{A}\overline{B})=P(\overline{A\cup B})=1-P(A\cup B)=0.7
+	\therefore P(A\cup B)=0.3
+	\therefore P(B-A)=0.2$
+\section{}
+\textbf{证明： } 由数学归纳法：
+
+奠基：当n=2时，$P(A\cup B)=P(A)+P(B)-P(AB)$，成立。
+
+归纳：设当n=k时原式成立，\\		即$P(\bigcup_{i=1}^k A_i)=\sum_{i = 1}^{k}P(A_i)-\sum_{i<j}P(A_iA_j)+…+(-1)^{k-1} P(A_1,A_2,…,A_k)$成立。\\
+则当n=k+1时，有：$P(\bigcup_{i=1}^{k+1} A_i)=P(\bigcup_{i=1}^{k} A_i)+P(A_{k+1})-P(\bigcup_{i=1}^{k+1} A_i\cap A_{k+1})\\
+	=\sum_{i=1}^{k+1} P(A_i)-\sum_{i<j}P(A_iA_j)+…+(-1)^{k+1}P(A_1,A_2,…,A_k)-P(\bigcup_{i=1}^s (A_i\cap A_{s+1}))\\
+	=\sum_{i=1}^{k+1}P(A_i)-\sum_{i<j}P(A_iA_j)+…+(-1)^{k} P(A_1,A_2,…,A_k+1)$\\
+故当n=k+1时，仍然成立。由数学归纳法，得证。
+\end{document}

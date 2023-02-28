@@ -1,0 +1,157 @@
+\documentclass[12pt,a4paper,fontset=none]{ctexart}
+\usepackage{ctex}
+\usepackage{emptypage} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{graphicx}%插入图片用的宏包
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[marginal]{footmisc}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{algorithm}%算法基础宏包
+\usepackage{algorithmicx}%算法基础宏包,注意小写
+\usepackage{algpseudocode}%算法拓展宏包,函数,Return
+\newgeometry{left=3cm,top=2.5cm,bottom=2.5cm,right=3cm}
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+\lstset{
+	backgroundcolor=\color{green!10!blue!15},
+	rulesepcolor= \color{red!40!blue!100},
+	breaklines=true,
+	breakatwhitespace=false,
+	numbers=left, 
+	numberstyle= \small,
+	keywordstyle= \color{blue},
+	commentstyle=\color{gray}, 
+	frame=shadowbox
+}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\title{\textbf{最优化作业一}}
+
+\author{
+\\
+\Large{麻超 \quad 201300066}
+\\[6pt]
+{ \large \textit{南京大学人工智能学院}}\\[2pt]
+}
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+
+\begin{document}
+
+\maketitle
+\setcounter{page}{1}
+\section*{Problem 1}
+\subsection*{a}
+Prove:
+由柯西不等式:
+\begin{align*}
+    (\sum_{i=1}^{n}a_ib_i)^2\leq \sum_{i=1}^{n}a_i^2\sum_{i=1}^{n}b_i^2
+\end{align*}
+
+得到:
+\begin{align*}
+    \|x+y\| & =\sqrt{\sum_{i=1}^{n}(x_i+y_i)^2}
+    \\&=\sqrt{\sum_{i=1}^{n}(x_i^2+y_i^2+2x_iy_i)}
+    \\&\leq \sqrt{\sum_{i=1}^{n}(x_i^2+y_i^2)+2\sqrt{\sum_{i=1}^{n}x_i^2\sum_{i=1}^{n}y_i^2}}\\
+            & =\sqrt{\sum_{i=1}^{n}x_i^2+\sum_{i=1}^{n}y_i^2+2\sqrt{\sum_{i=1}^{n}x_i^2}\sqrt{\sum_{i=1}^{n}y_i^2}} \\
+            & =\sqrt{\sum_{i=1}^{n}x_i^2}+\sqrt{\sum_{i=1}^{n}y_i^2}                                                \\
+            & =\|x\|+\|y\|
+\end{align*}
+\subsection*{b}
+\begin{align*}
+    \|x+y\|^2=\sum_{i=1}^{n}(x_i+y_i)^2=                   & \sum_{i=1}^{n}x_i^2+\sum_{i=1}^{n}y_i^2+2\sum_{i=1}^{n}x_iy_i               \\
+    (1+\epsilon)\|x+y\|^2+(1+\frac{1}{\epsilon} )\|y_i\|^2 & =(1+\epsilon)\sum_{i=1}^{n}x_i^2+(1+\frac{1}{\epsilon} )\sum_{i=1}^{n}y_i^2 \\&=\sum_{i=1}^{n}x_i^2+\sum_{i=1}^{n}y_i^2+\sum_{i=1}^{n}(\epsilon x_i^2+\frac{1}{\epsilon}y_i^2 )\\&\geq \sum_{i=1}^{n}x_i^2+\sum_{i=1}^{n}y_i^2+2\sum_{i=1}^{n}x_iy_i\\&=\|x+y\|^2
+\end{align*}
+
+\section*{Problem 2}
+\subsection*{a}
+对于任意的$x,y\in P$,由定义:$Ax\leq b$ and $Ay\leq b$.因此:
+\begin{align*}
+    A(\lambda x+(1-\lambda)y)=\lambda Ax+(1-\lambda)Ay\leq \lambda b+(1-\lambda)b=b
+\end{align*}
+
+即$x+(1-\lambda)y\in P$
+
+故集合P是一个凸集.
+\subsection*{b}
+对于任意的$\vec{a},\vec{b}\in S$,由于S为凸集,故任取$x\in [0,1]:$\begin{align*}
+    xA\vec{a}+(1-x)A\vec{b}=A(x\vec{a}+(1-x)\vec{b})\in A(S)
+\end{align*}
+
+故$A(S)$为凸集.
+\subsection*{c}
+对于任意的$\vec{a},\vec{b}\in A^{-1}S$,由于S为凸集,故$A\vec{a},A\vec{b}\in S$,且任取$x\in [0,1]:
+$\begin{align*}
+    xA\vec{a}+(1-x)A\vec{b}\in S             \\
+    \therefore A(x\vec{a}+(1-x)\vec{b})\in S \\
+    \therefore x\vec{a}+(1-x)\vec{b}\in A^{-1}S
+\end{align*}
+
+故$A^{-1}S$为凸集.
+\section*{Problem 3}
+设超平面的法向量为$a$,经过第一个超平面上的点$x_1$的法线为:$x=x_1+ta,(t\in R)$.故该法线与第二个超平面的交点满足$a^T(x_1+ta)=c$
+
+因此$t=(c-a^Tx_1)/a^Ta$,故$x_2=x_1+\frac{(c-a^Tx_1)a}{a^Ta}=x_1+\frac{(c-b)a}{a^Ta}$
+
+所以两个平行超平面的距离是:
+\begin{align*}
+    \|x_1-x_2\|=|c-b|/\|a\|
+\end{align*}
+\section*{Problem 4}
+\subsection*{a}
+如果集合与任意直线${\hat{x}+tv|t\in R}$的交点是凸的，则该集合是凸集.
+
+因为
+\begin{align*}
+    (\hat{x}+tv)^TA(\hat{x}+tv)+b^T(\hat{x}+tv)+c=\alpha t^2+\beta t+\gamma
+\end{align*}
+
+且
+\begin{align*}
+    \alpha=v^TAv,\beta=b^Tv+2\hat{x}^TAv,\gamma=c+b^T\hat{x}+\hat{x}^TA\hat{x}.
+\end{align*}
+
+C与该直线集合的交点所组成的集合为
+\begin{align*}
+    {\hat{x}+tv|\alpha t^2+\beta t+\gamma\leq 0}
+\end{align*}
+
+当$\alpha\geq 0$时,该集合是一个凸集.对于v而言,当$v^TAv\geq 0$时即可满足,即$A\succeq 0$.反之不成立.
+\subsection*{b}
+It is True.
+
+令$H={x|g^Tx+h=0}.$定义$\alpha,\beta,\gamma$为a)的题解.另有$\delta =g^Tv,\epsilon =g^T\hat{x}+h$.
+
+可以设$\hat{x}\in H$,即$\epsilon=0$.则$C\cap H$与由$\hat{x},v$所定义的线的集合的交点集合是
+\begin{align*}
+    {\hat{x}+tv|\alpha t^2+\beta t+\gamma\leq 0,\delta t=0}
+\end{align*}
+
+如果$\delta=g^Tv\neq 0$:当$\gamma \leq 0$,或者其为空时交点就是一个单独的$\hat{x}$.如果不是的话,那么它是一个凸集.
+
+如果$\delta=g^Tv=0$,则该集合等价于
+\begin{align*}
+    {\hat{x}+tv|\alpha t^2+\beta t+\gamma\leq 0}
+\end{align*}
+
+由上一问的结论,如果$\alpha \leq 0$,则其为凸集.因此$C\cap H$在$g^Tv=0$,即$v^TAv\geq 0$时为凸集.
+
+当存在$\lambda$满足$A+\lambda gg^T\succeq 0$时可以成立.
+\section*{Problem 5}
+\subsection*{a}
+$K^*$是一组齐次半空间（即包含原点作为边界点的半空间）的交集.因此它是一个封闭的凸锥.
+\subsection*{b}
+如果$y\in K_2^*$,则表示对于任意的$x\in K_2$,都有$x^Ty\geq 0$,包括了$K_1$在内.因此对于所有的$x\in K_1$,都有$x^Ty\geq 0$.即$K_1\subseteq K_2$.
+\end{document}

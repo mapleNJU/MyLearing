@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Single File Compile & Run",
+            "type": "cppdbg",
+            "request": "launch",
+            "targetArchitecture": "x86",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "args": [],
+            "miDebuggerPath": "gdb",
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "externalConsole": true,
+            "preLaunchTask": "g++",
+            // "postDebugTask": "clean"
+        },
+        {
+            "name": "Multiple Files Compile & Run",
+            "type": "cppdbg",
+            "request": "launch",
+            "targetArchitecture": "x86",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "args": [],
+            "miDebuggerPath": "gdb",
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "externalConsole": true,
+            "preLaunchTask": "make",
+            // "postDebugTask": "clean"
+        }
+    ]
+}

@@ -1,0 +1,115 @@
+% !Mode:: "TeX:UTF-8"
+\documentclass[a4paper,11pt,onecolumn,twoside]{article}
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+
+% Please change the following fonts if they are not available.
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+
+\addtolength{\topmargin}{-54pt}
+%\setlength{\oddsidemargin}{-0.9cm}
+%\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{17.00cm}
+\setlength{\textheight}{24.50cm}
+
+\renewcommand{\baselinestretch}{1.1}
+%\parindent 22pt
+%%%%%%%%%%%%%这一条线以上的东西都不要做修改，遇到问题私戳负责人
+\title{\textbf{[这是论文的标题]}}
+\author{
+[作者1姓名]\\[2pt]%%“\\”表示换行，2pt表示行间距
+{\small \textit{[南京大学XXXX学院2015级，南京 210046]}}\\[6pt]
+%begin 这一部分如果有很多作者就整体复制，否则请删掉。百分号之后的文字不起作用，注意author里不能有空行
+[作者2姓名]\\[2pt]
+{\small \textit{[南京大学XXXX学院2015级，南京 210046]}}\\[6pt]
+%end
+指导老师：[指导老师姓名]\\[2pt]
+{\small \textit{[南京大学XXXXXX学院，南京 210046]}}\\[6pt]
+%begin 这一部分如果有很多指导老师就整体复制，否则请删掉
+指导老师：[指导老师姓名]\\[2pt]
+{\small \textit{[南京大学XXXXXX学院，南京 210046]}}\\[2pt]%最后一个是2pt，其他是6pt，不用地方不一样，一切以模板为准
+}
+%begin 不要填，不需要
+\date{}
+%end
+%begin以下部分只有两个地方需要修改——作者和论文类别，其他都不能动
+\fancypagestyle{firststyle}
+{
+   \fancyhf{}
+   \fancyhead[C]{南京大学第23届基础学科论坛 \\ The 23\textsuperscript{rd} Forum of Sciences and Arts}
+   \fancyhead[R]{[论文类别]}%该写啥写啥
+   \fancyhead[L]{[作者]}%有几个写几个，遇到写不完的（比如太多了把标题都挡住了），就写前面三个（最多写三个）。比如，“霍建华，霍建华，霍建华等”。
+%别忘了下面也要改
+}
+
+\pagestyle{fancy}
+
+\setlist{nolistsep}
+\captionsetup{font=small}
+
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+%end
+
+%%%%%%%%%%这条线以下，正文正式开始
+\begin{document}
+%begin 不用管，不要改
+\maketitle
+\thispagestyle{firststyle}
+%\setlength{\oddsidemargin}{ 1cm}
+%\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{15.50cm}
+\vspace{-.8cm}
+%end
+%%%%%%%%%%%%%%%%%%%%这条线以下就是我们可以复制粘贴的内容
+
+\begin{center}
+\parbox{\textwidth}{
+\textbf{摘要} \quad {这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。这是样例文字。} \\
+
+\textbf{关键词}\quad {数学建模；拉格朗日点；国民经济}}%%注意中英文分号区别，中文用中文分号，英文用英文分号
+\end{center}
+%%begin 不用管
+\setcounter{page}{1}
+
+\setlength{\oddsidemargin}{-.5cm}  % 3.17cm - 1 inch
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{17.00cm}
+%end
+
+\begin{center}
+{\LARGE \textbf{\\[24pt][This is the English Title]}} \\ [0.5cm]  %%前面的那个\\[24pt]可以自己改，以尽量使中英文摘要处于同一页，注意每次检查不要有多余的空白页
+{
+[Author 1 Name]\\[2pt]
+{\small \textit{[2015, School of XXXXXXXXX, Nanjing University, Nanjing 210046]}}\\[6pt]
+%begin如果有多的作者，再自行添加，否则请删除
+[Author 1 Name]\\[2pt]
+{\small \textit{[2015, School of XXXXXXXXX, Nanjing University, Nanjing 210046]}}\\[6pt]
+%end
+Mentor: [Mentor Name]\\[2pt]
+{\small \textit{[School of XXXXXXXXX, Nanjing University, Nanjing 210046]}}\\[6pt]
+%begin如果有多的导师，再自行添加，否则删除
+Mentor: [Mentor Name]\\[2pt]
+{\small \textit{[School of XXXXXXXXX, Nanjing University, Nanjing 210046]}}\\[12pt]%最后是12pt，其他注意区别
+%end
+}
+
+
+\parbox{\textwidth}{
+\textbf{Abstract:}\quad {[(This is the English version of abstract.) This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. This is sample text. ]} \\
+
+\textbf{Key words:}\quad {[Mathematical Modeling]; [Evaluation of Removal of Space Debris]; [Laser Generator]; [Satellit]}}
+\end{center}
+
+
+\end{document}

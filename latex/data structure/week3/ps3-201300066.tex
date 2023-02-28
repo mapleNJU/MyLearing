@@ -1,0 +1,220 @@
+\documentclass[12pt,a4paper]{ctexart}
+\usepackage{ctex}
+\usepackage{emptypage} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsfonts,amssymb,mathtools}
+\usepackage{graphicx}%插入图片用的宏包
+\usepackage{mathptmx}
+\usepackage{booktabs}
+\usepackage[labelfont=bf]{caption}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage[marginal]{footmisc}
+\usepackage{subfigure}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{algorithm}%算法基础宏包
+\usepackage{algorithmicx}%算法基础宏包,注意小写
+\usepackage{algpseudocode}%算法拓展宏包,函数,Return
+\newgeometry{left=3cm,top=2.5cm,bottom=2.5cm,right=3cm}
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+
+\lstset{
+	backgroundcolor=\color{green!10!blue!15},
+	rulesepcolor= \color{red!40!blue!100},
+	breaklines=true,
+	breakatwhitespace=false,
+	numbers=left, 
+	numberstyle= \small,
+	keywordstyle= \color{blue},
+	commentstyle=\color{gray}, 
+	frame=shadowbox
+}
+
+\renewcommand{\baselinestretch}{1.5}
+
+\title{\textbf{数据结构与算法第三次作业}}
+
+\author{
+\\
+\Large{麻超 \quad 201300066}
+\\[6pt]
+{ \large \textit{南京大学人工智能学院}}\\[2pt]
+}
+
+\date{\today}
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+
+\begin{document}
+\maketitle
+\setcounter{page}{1}
+\section{}
+\subsection{a}
+$T(n)=2T(n/2)+n\\
+    =2(2T(n/2*2)+n)+n\\
+    =2(2(2T(n/2*2*2)+n)+n)+n\\
+    =2^3T(n/2^3)+3n\\
+    =...\\
+    =2^kT(n/2^k)+kn\\
+    =nT(1)+kn\\
+    =n(lgn+T(1))>=nlgn$
+
+$\therefore T(n)\in \Omega(nlgn)$
+
+\subsection{b}
+
+$T(n)=\sum_{i=0}^{n/2}2^i\times (n-2i)=n\sum_{i=0}^{n/2}2^i-2\sum_{i=0}^{n/2}2^ii=n2^{n/2+1}-n-n2^{n+1}+2^{n/2+2}<=2^{n/2+2}<=c2^n$,故T(n)将近上界为$2^n$.
+
+使用代入法证明如下:使用常数d,有$T(n)<=2T(n-2)+dn<=2\times c2^{n-2}+dn=c2^{n-1}+dn<=c2^n$,故正确,即T(n)$=O(2^n)$.(这里本应有一张图,但它不见了,我还没有找到问题所在)
+
+\section{}
+\subsection{a}
+$T(n)=\Theta(n^2)$
+\subsection{b}
+$T(n)=\Theta(nlg n)$
+\section{}
+由课上所讲2进制数的简便乘法即可得到.首先将该二进制数X分为左右两部分A和B,每段长为n/2,则
+
+$X=A\times 2^{n/2}+B$
+
+由原乘法公式即可得$X^2=AA2^n+((A-B)*(B-A)+AA+BB)2^{n/2}+BB$
+
+\begin{algorithm}
+    \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+    \renewcommand{\algorithmicensure}{\textbf{Output:}}
+    \caption{Square of n-digit binary number X}
+    \label{alg1}
+    \begin{algorithmic}
+        \Require $X which is n-bit$
+        \If {$n==1$}
+        \State $re=X*X$
+        \Else
+        \State $A=X_left[n/2],B=X_right[n/2]$
+        \State $p1=A*A,p2=(A-B)*(A-B),p3=B*B$
+        \State $re=p1*2^n+(p1+p3-p2)2^{n/2}+p3$
+        \EndIf
+        \Ensure $re$
+    \end{algorithmic}
+\end{algorithm}
+
+在计算过程中,只有三次乘法,5次加减法,和2次移位操作,由此可得:
+
+$T(n)=3T(n/2)+O(n),n>1$,易得$T(n)=O(n^{lg3})$
+\section{}
+首先需要确定n的值,由于该数组是已经排好序的,并且当i>n时,数组的值都为$\infty$.由所需要的时间复杂度来看,应使用二分查找法.
+
+首先假定一个i的值,当A[i]!=$\infty$时,将i的值翻倍,若$A[i]==\infty$时,将i的值减半,则经过数次后可以确定i的唯一值.当确定i的值后,即可以通过二分查找法确定是否存在x.
+
+在第一步中,确定i的值为high(有穷数组的最高位),确定low=0,从high和low通过二分法向中间逼近.确定$mid=(high+low)/2.$若A[mid]>X,则令high=mid,若A[mid]<X,则令low=mid,再次递归查找.当A[mid]==X时,即可以返回mid的值,当low>=high且没有查找到对应的X值时,即可以返回没有该值的信息.
+
+\section{}
+一共有n位代表，设一共有m个政党.则选取其中一人,将该人与其他人配对,可以得到n-1个结果,与该人意见相合的组成一部分,意见不合的组成另一部分,若相合的一部分人已经超过半数,即可确定其对应的政党为多数党,否则,在另一部分中再次重复操作,直至选出多数党或者m>=n-1.
+
+\begin{algorithm}
+    \renewcommand{\algorithmicensure}{\textbf{Output:}}
+    \renewcommand{\algorithmicrequire}{\textbf{Input:}}
+    \caption{Select the majority party}
+    \label{alg3}
+    \begin{algorithmic}
+        \Require $A[n],m$
+        \Function {Search}{$A[],k$}
+        \State $i\gets 1$
+        \State $Agree[],Disagree[]$
+        \While {$i<k$}
+        \State $Compare A[i],A[0]$\Comment{判断是否为同一政党}
+        \If {$A[i]==A[0]$}\Comment{为同一政党}
+        \State $Agree.append(A[i])$
+        \Else \State $Disagree.append(A[i])$
+        \EndIf
+        \EndWhile
+        \If {$Agree.size()>Disagree.size()$}
+        \State \Return $Agree[],True$
+        \Else
+        \State \Return $Disagree[],False$
+        \EndIf
+        \EndFunction
+        \State $RE[],Judge\gets Search(A[],n),num=1$
+        \If {$Judge==1$}
+        \State \Return $RE[]$
+        \Else \While{$num<m-1\&\& Judge=False$}
+        \State $Search(RE[],RE.size())$
+        \State $num\gets num+1$
+        \EndWhile
+        \EndIf
+        \State \Return $RE[]$
+    \end{algorithmic}
+\end{algorithm}
+
+在该算法中,只有当迭代到了最后一步或者恰好能够判断多数党的时候才可以退出.
+
+当只有两个政党时,可以直接决出多数党并返回,算法是正确的.当有三个政党时,分为两种情况,第一种情况是判断出的政党超过总人数一半,即为多数党,可以返回.第二种情况是判断出的政党不足总人数一半,此时需要对Disagree数组再次进行遍历即可得到多数党.此时num(遍历次数)值为1,且Judge(能否确定为多数党)为False,所以再次遍历,那么这之后num就等于2,便会退出循环,得到人数占优的那一部分人员,无论最后决出的Judge是True还是False,都得到了最后结果,是正确的.当政党数量更多时,道理同m=3时,可以得到其是正确的.
+
+该算法最好的情况下时间复杂度为O(n),最差情况下为$O(n^m)$.
+
+\section{}
+如果要让时间复杂度减小到O(n),一个比较可行的办法是将横跨左右两个数组的左右数组分别分为在左数组的一部分和右数组的一部分,即从mid这个位置开始,向左右两边延申,求出分别最大的数组,再求和.
+
+\begin{algorithm}
+    \caption{Modify the original algorithm}
+    \label{alg1}
+    \begin{algorithmic}
+        \Require $A[],low,high$
+        \Ensure $totalsum,max_left,max_right,crossingA$
+        \If {$low==high$}
+        \State \Return $(A[l],A[l],A[l],A[l])$\Comment{只有一个元素}
+        \EndIf
+        \State $mid \gets (low+high)$
+        \State $(lsum,l_lmax,l_rmax,leftmax)\gets FMS(A,low,mid)$
+        \State $(rsum,r_lmax,r_rmax,rightmax)\gets FMS(A,mid+1,high)$
+        \State $crossmax \gets l_rmax+r_lmax$
+        \State $lmax\gets max(l-lmax,lsum+r-lmax)$
+        \State $rmax\gets max(r_rmax,rsum+l_rmax)$
+        \State \Return $(lsum+rsum,lmax,rmax,max(leftmax,rightmax,crossmax))$
+    \end{algorithmic}
+\end{algorithm}
+
+这个过程的输出是正确的,因为crossmax的值等于$max_{l<=u<=mid<v<=r}\sum_{i=u}^va_i$，因为$l_rmax$是到mid时的最大值,同样地,$r_rmax$也是从mid+1开始的最大值。其他的正确性类似.
+
+时间复杂性:在合并的过程中只用了$\Theta(1)$time.所以$T(n)=2T(n/2)+\Theta(1)$.所以$T(n)=\Theta(n)$.
+\section{}
+\subsection{a}
+由最大堆的性质(每一个根节点对应的值都比叶节点对应的值更大),可以确定第二大的值必然在根节点对应的两个叶节点里,只需要比较这两个值的大小即可.算法时间在常数时间内.
+\subsection{b}
+由最大堆的性质(每一个根节点对应的值都比叶节点对应的值更大),可以考虑从根节点开始遍历,每次取出当前最大的一个值,直到第k个最大的值.
+
+方法如下:首先该二叉树是标准的最大堆,从根节点开始遍历取当前最大值,第一个值肯定为根节点,随后比较根节点的left和right,并将大的叶节点(第1层)定为新的根节点,此时原叶节点对应的两个叶节点(第2层)通过同样的办法让小的叶变为大的叶的叶,依此类推.这样最后得到的二叉树还是一个最大堆,再次通过同样的办法取出当前根节点,依此类推,直至找出第k个值.可以利用交换根节点与对应叶节点的值来简便地完成构建新的最大堆.
+
+\begin{algorithm}
+    \caption{Take the kth largest element in a max-heap}
+    \label{alg1}
+    \begin{algorithmic}
+        \Require $max-heap,k,n(size)$
+        \Ensure $A[k-1]$
+        \State $A[],i=1$
+        \While{$i<=k$}
+        \State $n\gets takemaxnum(root)$
+        \State $A[i-1]\gets n$
+        \State $i\gets i+1$
+        \EndWhile
+        \Function{takemaxnum}{$root$}
+        \State $m\gets 0$
+        \While{$root.left!=null \&\&root.right!=null$}
+        \If $root.left>root.right$
+        \State $swap(root,root.left)$
+        \Else $swap(root,root.right)$
+        \EndIf
+        \EndWhile
+        \State \Return $takemaxnum(root)$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+在该算法中,由于使用的是最大堆,所以该树的深度最多为$log_2n+1$,每次取出最大值需要经过这么多次交换,一共需要执行k次,所以时间复杂度$T(n)=O(klgk)$
+
+\end{document}

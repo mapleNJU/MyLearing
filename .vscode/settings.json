@@ -47,9 +47,7 @@
         "stdexcept": "cpp"
     },
     "cmake.configureOnOpen": false,
-    "cSpell.ignoreWords": [
-        
-    ],
+    "cSpell.ignoreWords": [],
     "cSpell.words": [
         "consolehwnd"
     ],
@@ -57,5 +55,6 @@
         "java/hello/src",
         "java"
     ],
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "python.analysis.typeCheckingMode": "basic"
 }

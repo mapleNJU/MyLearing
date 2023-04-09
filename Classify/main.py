@@ -1,7 +1,6 @@
 # _*_ coding:utf-8 _*_
 import numpy as np
 import re
-import random
 import pandas as pd
 import jieba
 
@@ -12,7 +11,7 @@ def loadDataSet():  #创建样例数据
     with open(file_path, "r") as f:
         data = f.readlines()
 
-    pattern = re.compile(r"^(\d+),(.+)$")
+    pattern = re.compile(r"^(\d+),(.+)$")  #正则以分割标签和文本
     data = [re.match(pattern, x.strip()).groups() for x in data]
     labels, texts = zip(*data)
     new_labels = [int(label) for label in labels]

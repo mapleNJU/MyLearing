@@ -6,7 +6,7 @@ import jieba
 
 
 def loadDataSet():  #创建样例数据
-    file_path = "train.txt"
+    file_path = "Classify/train.txt"
 
     with open(file_path, "r") as f:
         data = f.readlines()
@@ -74,7 +74,7 @@ def classifyNB(vec2Classify, p0Vec, p1Vec, pClass1):  #比较概率大小进行�
 def testingNB():
 
     test_set_words = []
-    with open("test.txt", 'r') as f2:
+    with open("Classify/test.txt", 'r') as f2:
         for line in f2:
             # 使用 jieba 分词对当前行文本进行分词，并将分词结果转化为列表形式
             words = list(jieba.cut(line.strip()))
@@ -93,7 +93,7 @@ def testingNB():
         segment_list.append(classifyNB(thisDoc, p0V, p1V, pAb))
 
     # 定义一个文件名，用于保存情感分类结果
-    filename = 'sentiment_result.txt'
+    filename = 'Classify/sentiment_result.txt'
 
     # 将情感分类结果写入到文件中
     with open(filename, 'w') as f:

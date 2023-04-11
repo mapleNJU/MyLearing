@@ -2,12 +2,13 @@ import numpy as np
 import jieba
 import re
 
+train_file = "Classify/train.txt"
+test_file = "Classify/test.txt"
+stop_file = "Classify/stop_hk.txt"
+new_file = "Classify/201300066.txt"
+
 
 def PrepareData():
-    train_file = "Classify/train.txt"
-    test_file = "Classify/test.txt"
-    stop_file = "Classify/new_stop.txt"
-
     test_set_words = []
     train_set_words = []
     pattern = re.compile(r"^(\d+),(.+)$")  #正则以分割标签和文本
@@ -51,7 +52,6 @@ def words2vec(vocablist, words):
     for word in words:
         if word in vocablist:
             Vec[vocablist.index(word)] = 1
-
     return Vec
 
 
@@ -76,38 +76,38 @@ def Train(TrainMat, TrainLabel):
 
 
 def classifyNB(vec2Classify, p0Vec, p1Vec, pClass1):  #比较概率大小进行判断，
-    p1 = sum(vec2Classify * p1Vec) + np.log(pClass1)
-    p0 = sum(vec2Classify * p0Vec) + np.log(1 - pClass1)
-    if p1 > p0:
+    positive = sum(vec2Classify * p1Vec) + np.log(pClass1)
+    negative = sum(vec2Classify * p0Vec) + np.log(1 - pClass1)
+    if positive > negative:
         return 1
     else:
         return 0
 
 
 def testingNB():
-    Train_text, Train_label, Test_text = PrepareData()
-    VocabList = createVocabList(Train_text)
+    Train_text, Train_label, Test_text = PrepareData()  #对训练集和测试集分词
+    VocabList = createVocabList(Train_text)  #以训练集的内容创建词库
+
     TrainMat = []
     for postinDoc in Train_text:
-        TrainMat.append(words2vec(VocabList, postinDoc))
+        TrainMat.append(words2vec(VocabList, postinDoc))  #创建词向量
     p0V, p1V, pAb = Train(np.array(TrainMat), np.array(Train_label))
-    segment_list = []
+
+    result = []
     for item in Test_text:
         thisDoc = np.array(words2vec(VocabList, item))
-        segment_list.append(classifyNB(thisDoc, p0V, p1V, pAb))
+        result.append(classifyNB(thisDoc, p0V, p1V, pAb))
 
-    # 定义一个文件名，用于保存情感分类结果
-    filename = 'Classify/201300066.txt'
-
-    # 将情感分类结果写入到文件中
-    with open(filename, 'w') as f:
-        # 遍历情感分类结果列表，将每个元素写入文件中，并在元素之间添加换行符
-        for sentiment in segment_list:
-            f.write(str(sentiment) + '\n')
-
-    print("Success! The positive probability equals ",
-          sum(segment_list) / len(segment_list))
+    return result
 
 
 if __name__ == '__main__':
-    testingNB()
+    # 将结果写入到文件中
+    result = testingNB()
+    with open(new_file, 'w') as f:
+        # 遍历情感分类结果列表，将每个元素写入文件中，并在元素之间添加换行符
+        for item in result:
+            f.write(str(item) + '\n')
+
+    print("Success! The positive rate of this text is ",
+          sum(result) / len(result))
